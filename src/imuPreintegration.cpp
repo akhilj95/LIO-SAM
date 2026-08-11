@@ -142,6 +142,10 @@ public:
         }
         geometry_msgs::msg::TransformStamped ts;
         tf2::convert(tCur, ts);
+        // eigenToTransform leaves the header empty, and the block above only
+        // fills it when lidarFrame != baselinkFrame — set it either way.
+        ts.header.stamp = odomMsg->header.stamp;
+        ts.header.frame_id = odometryFrame;
         ts.child_frame_id = baselinkFrame;
         tfBroadcaster->sendTransform(ts);
 

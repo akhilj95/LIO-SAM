@@ -1412,6 +1412,10 @@ public:
         }
 
         // pose covariance small, no need to correct
+        // indices 3,4 are x,y translation variance (GTSAM Pose3 is rotation-first)
+        RCLCPP_DEBUG_THROTTLE(get_logger(), *get_clock(), 5000,
+            "GPS gate: poseCov x=%.3f y=%.3f, threshold=%.3f",
+            poseCovariance(3,3), poseCovariance(4,4), poseCovThreshold);
         if (poseCovariance(3,3) < poseCovThreshold && poseCovariance(4,4) < poseCovThreshold)
             return;
 
@@ -1469,6 +1473,9 @@ public:
                 noiseModel::Diagonal::shared_ptr gps_noise = noiseModel::Diagonal::Variances(Vector3);
                 gtsam::GPSFactor gps_factor(cloudKeyPoses3D->size(), gtsam::Point3(gps_x, gps_y, gps_z), gps_noise);
                 gtSAMgraph.add(gps_factor);
+                RCLCPP_DEBUG(get_logger(),
+                    "GPS factor added at key %zu: (%.2f, %.2f, %.2f) noise (%.2f, %.2f, %.2f)",
+                    cloudKeyPoses3D->size(), gps_x, gps_y, gps_z, noise_x, noise_y, noise_z);
 
                 aLoopIsClosed = true;
                 break;

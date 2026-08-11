@@ -4,6 +4,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -19,15 +20,41 @@ def generate_launch_description():
             share_dir, 'config', 'params.yaml'),
         description='FPath to the ROS2 parameters file to use.')
 
+    # Follow /clock from `ros2 bag play --clock` instead of the system clock.
+    # Set to false when running against a live sensor.
+    use_sim_time_declare = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation/bag clock published on /clock.')
+
+    # value_type=bool so the string from the CLI arrives as a real boolean;
+    # a bare LaunchConfiguration would be declared as a string parameter.
+    use_sim_time = ParameterValue(
+        LaunchConfiguration('use_sim_time'), value_type=bool)
+
+    # Level for the mapOptimization logger only — 'debug' surfaces the GPS
+    # factor diagnostics without the rclcpp internals a process-wide
+    # --log-level would pull in.
+    log_level_declare = DeclareLaunchArgument(
+        'log_level',
+        default_value='info',
+        description='Logger level for lio_sam_mapOptimization (info|debug|warn).')
+
+    map_opt_log_level = ['--ros-args', '--log-level',
+                         ['lio_sam_mapOptimization:=',
+                          LaunchConfiguration('log_level')]]
+
     print("urdf_file_name : {}".format(xacro_path))
 
     return LaunchDescription([
         params_declare,
+        use_sim_time_declare,
+        log_level_declare,
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             arguments='0.0 0.0 0.0 0.0 0.0 0.0 map odom'.split(' '),
-            parameters=[parameter_file],
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
             output='screen'
             ),
         Node(
@@ -36,35 +63,62 @@ def generate_launch_description():
             name='robot_state_publisher',
             output='screen',
             parameters=[{
-                'robot_description': Command(['xacro', ' ', xacro_path])
+                'robot_description': ParameterValue(
+                    Command(['xacro', ' ', xacro_path]), value_type=str),
+                'use_sim_time': use_sim_time,
             }]
+        ),
+        # ---- Navsat: GPS -> odometry/gps, consumed by mapOptimization ----
+        # ekf_gps publishes odometry/filtered (remapped to odometry/navsat),
+        # which navsat consumes; navsat publishes odometry/gps, which feeds both
+        # back into ekf_gps (odom0) and into LIO-SAM's addGPSFactor().
+        Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_gps',
+            respawn=True,
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
+            remappings=[('odometry/filtered', 'odometry/navsat')],
+            output='screen'
+        ),
+        Node(
+            package='robot_localization',
+            executable='navsat_transform_node',
+            name='navsat',
+            respawn=True,
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
+            # ROS 2 subscribes to 'imu', not ROS 1's 'imu/data'.
+            remappings=[('imu', 'imu_correct'),
+                        ('odometry/filtered', 'odometry/navsat')],
+            output='screen'
         ),
         Node(
             package='lio_sam',
             executable='lio_sam_imuPreintegration',
             name='lio_sam_imuPreintegration',
-            parameters=[parameter_file],
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
             output='screen'
         ),
         Node(
             package='lio_sam',
             executable='lio_sam_imageProjection',
             name='lio_sam_imageProjection',
-            parameters=[parameter_file],
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
             output='screen'
         ),
         Node(
             package='lio_sam',
             executable='lio_sam_featureExtraction',
             name='lio_sam_featureExtraction',
-            parameters=[parameter_file],
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
             output='screen'
         ),
         Node(
             package='lio_sam',
             executable='lio_sam_mapOptimization',
             name='lio_sam_mapOptimization',
-            parameters=[parameter_file],
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
+            arguments=map_opt_log_level,
             output='screen'
         ),
         Node(
@@ -72,6 +126,7 @@ def generate_launch_description():
             executable='rviz2',
             name='rviz2',
             arguments=['-d', rviz_config_file],
+            parameters=[{'use_sim_time': use_sim_time}],
             output='screen'
         )
     ])
