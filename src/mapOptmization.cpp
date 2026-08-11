@@ -64,6 +64,7 @@ public:
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pubLaserOdometryIncremental;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubKeyPoses;
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pubPath;
+    rclcpp::Publisher<lio_sam::msg::CloudInfo>::SharedPtr pubSLAMInfo;
 
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubHistoryKeyFrames;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubIcpKeyFrames;
@@ -164,6 +165,7 @@ public:
         pubLaserOdometryIncremental = create_publisher<nav_msgs::msg::Odometry>(
             "lio_sam/mapping/odometry_incremental", qos);
         pubPath = create_publisher<nav_msgs::msg::Path>("lio_sam/mapping/path", 1);
+        pubSLAMInfo = create_publisher<lio_sam::msg::CloudInfo>("lio_sam/mapping/slam_info", 1);
         br = std::make_unique<tf2_ros::TransformBroadcaster>(this);
 
         subCloud = create_subscription<lio_sam::msg::CloudInfo>(
@@ -1754,6 +1756,27 @@ public:
             globalPath.header.stamp = timeLaserInfoStamp;
             globalPath.header.frame_id = odometryFrame;
             pubPath->publish(globalPath);
+        }
+        // publish SLAM information for 3rd-party usage
+        static int lastSLAMInfoPubSize = -1;
+        if (pubSLAMInfo->get_subscription_count() != 0)
+        {
+            if (lastSLAMInfoPubSize != static_cast<int>(cloudKeyPoses6D->size()))
+            {
+                lio_sam::msg::CloudInfo slamInfo;
+                slamInfo.header.stamp = timeLaserInfoStamp;
+                pcl::PointCloud<PointType>::Ptr cloudOut(new pcl::PointCloud<PointType>());
+                *cloudOut += *laserCloudCornerLastDS;
+                *cloudOut += *laserCloudSurfLastDS;
+                slamInfo.key_frame_cloud = toCloudMsg(cloudOut, timeLaserInfoStamp, lidarFrame);
+                slamInfo.key_frame_poses = toCloudMsg(cloudKeyPoses6D, timeLaserInfoStamp, odometryFrame);
+                pcl::PointCloud<PointType>::Ptr localMapOut(new pcl::PointCloud<PointType>());
+                *localMapOut += *laserCloudCornerFromMapDS;
+                *localMapOut += *laserCloudSurfFromMapDS;
+                slamInfo.key_frame_map = toCloudMsg(localMapOut, timeLaserInfoStamp, odometryFrame);
+                pubSLAMInfo->publish(slamInfo);
+                lastSLAMInfoPubSize = cloudKeyPoses6D->size();
+            }
         }
     }
 };

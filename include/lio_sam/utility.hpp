@@ -347,6 +347,19 @@ public:
 };
 
 
+// Convert without publishing. publishCloud() dereferences its publisher, so it
+// cannot stand in for this the way the ROS 1 version did (it passed an empty
+// ros::Publisher). Templated because key frame poses are PointTypePose.
+template<typename T>
+sensor_msgs::msg::PointCloud2 toCloudMsg(const T& thisCloud, rclcpp::Time thisStamp, std::string thisFrame)
+{
+    sensor_msgs::msg::PointCloud2 tempCloud;
+    pcl::toROSMsg(*thisCloud, tempCloud);
+    tempCloud.header.stamp = thisStamp;
+    tempCloud.header.frame_id = thisFrame;
+    return tempCloud;
+}
+
 sensor_msgs::msg::PointCloud2 publishCloud(rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr thisPub, pcl::PointCloud<PointType>::Ptr thisCloud, rclcpp::Time thisStamp, std::string thisFrame)
 {
     sensor_msgs::msg::PointCloud2 tempCloud;
