@@ -249,7 +249,9 @@ public:
         extRot = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(extRotV.data(), 3, 3);
         extRPY = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(extRPYV.data(), 3, 3);
         extTrans = Eigen::Map<const Eigen::Matrix<double, -1, -1, Eigen::RowMajor>>(extTransV.data(), 3, 1);
-        extQRPY = Eigen::Quaterniond(extRPY);
+        // extrinsicRPY is defined as T_lb, so the quaternion applied to the IMU
+        // orientation is its inverse (upstream df05f8a).
+        extQRPY = Eigen::Quaterniond(extRPY).inverse();
 
         declare_parameter("edgeThreshold", 1.0);
         get_parameter("edgeThreshold", edgeThreshold);
