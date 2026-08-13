@@ -50,9 +50,13 @@ def generate_launch_description():
         params_declare,
         use_sim_time_declare,
         log_level_declare,
-        # map -> odom is published by lio_sam_imuPreintegration (TransformFusion),
-        # which reads mapFrame/odometryFrame from params.yaml. Don't add a
-        # static_transform_publisher here or the frame gets two parents.
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments='0.0 0.0 0.0 0.0 0.0 0.0 map odom'.split(' '),
+            parameters=[parameter_file, {'use_sim_time': use_sim_time}],
+            output='screen'
+            ),
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
