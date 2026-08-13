@@ -92,10 +92,14 @@ def generate_launch_description():
                         ('odometry/filtered', 'odometry/navsat')],
             output='screen'
         ),
+        # No name= here: this process constructs TWO nodes (TransformFusion and
+        # IMUPreintegration), and Node(name=...) becomes a process-wide
+        # `-r __node:=` remap that would rename both to the same thing and
+        # collide. They keep the names their ParamServer constructors assign.
+        # params.yaml uses the /** wildcard, so parameters still reach both.
         Node(
             package='lio_sam',
             executable='lio_sam_imuPreintegration',
-            name='lio_sam_imuPreintegration',
             parameters=[parameter_file, {'use_sim_time': use_sim_time}],
             output='screen'
         ),
