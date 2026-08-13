@@ -53,6 +53,8 @@
   <exec_depend>eigen</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>robot_localization</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
   
   <member_of_group>rosidl_interface_packages</member_of_group>
 
