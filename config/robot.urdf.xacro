@@ -11,12 +11,9 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
-  <link name="lidar_link"> </link>
-  <joint name="lidar_joint" type="fixed">
-    <parent link="base_link" />
-    <child link="lidar_link" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </joint>
+  <!-- No lidar_link here: mapOptimization broadcasts odom -> lidar_link, so
+       declaring it in the URDF too would give the frame a second parent via
+       robot_state_publisher. Matches the ROS 1 URDF. -->
 
   <link name="imu_link"> </link>
   <joint name="imu_joint" type="fixed">
