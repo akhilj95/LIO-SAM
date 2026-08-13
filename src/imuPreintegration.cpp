@@ -40,6 +40,7 @@ public:
 
     std::shared_ptr<tf2_ros::Buffer> tfBuffer;
     std::shared_ptr<tf2_ros::TransformBroadcaster> tfBroadcaster;
+    std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tfStaticBroadcaster;
     std::shared_ptr<tf2_ros::TransformListener> tfListener;
     tf2::Stamped<tf2::Transform> lidar2Baselink;
 
@@ -74,6 +75,17 @@ public:
         pubImuPath = create_publisher<nav_msgs::msg::Path>("lio_sam/imu/path", qos);
 
         tfBroadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(this);
+
+        // map -> odom, identity. ROS 1 re-sent this from imuOdometryHandler on
+        // every IMU odometry message; a latched static transform is equivalent
+        // for a constant identity and costs nothing per message.
+        tfStaticBroadcaster = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+        geometry_msgs::msg::TransformStamped map2odom;
+        map2odom.header.stamp = now();
+        map2odom.header.frame_id = mapFrame;
+        map2odom.child_frame_id = odometryFrame;
+        map2odom.transform.rotation.w = 1.0;
+        tfStaticBroadcaster->sendTransform(map2odom);
     }
 
     Eigen::Isometry3d odom2affine(nav_msgs::msg::Odometry odom)
