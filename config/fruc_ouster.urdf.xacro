@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!-- FRUC Ouster OS-128 platform ("he-bo" rig).
+     Ported verbatim from Forestry-Robotics-UC/fruc_lio_sam
+     launch/include/config/robot_ouster_he-bo.urdf.xacro - geometry unchanged.
+
+     params_ouster.yaml sets lidarFrame to "os_lidar" and baselinkFrame to
+     "base_link"; the lidar_joint below is what makes that pair resolvable.
+
+     Deliberately no "lidar_link": mapOptimization broadcasts odom -> lidar_link
+     itself, and declaring it here too would give that frame two parents. -->
+<robot name="lio" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="base_link"/>
+
+  <!-- IMU -->
+  <link name="xsens_imu"/>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="xsens_imu"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Ouster -->
+  <link name="os_lidar"/>
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="os_lidar"/>
+    <origin xyz="0.15 0 0.13" rpy="0 0 0"/>
+  </joint>
+
+  <!-- GPS -->
+  <link name="gps"/>
+  <joint name="gps_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps"/>
+    <origin xyz="-0.20 0 0.35" rpy="0 0 0"/>
+  </joint>
+
+</robot>

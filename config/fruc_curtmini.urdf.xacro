@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!-- FRUC Curt Mini platform (Ouster OS-128 on a mast).
+     Ported verbatim from Forestry-Robotics-UC/fruc_lio_sam
+     launch/include/config/curtmini.urdf.xacro - geometry unchanged.
+
+     Use with params_ouster.yaml (lidarFrame "os_lidar"). Note the external IMU
+     is yawed -90 degrees relative to base_link; that is the physical mount, and
+     it is NOT the same thing as extrinsicRot/extrinsicRPY in the params file,
+     which describe the IMU-to-lidar rotation LIO-SAM applies internally.
+
+     Deliberately no "lidar_link": mapOptimization broadcasts odom -> lidar_link
+     itself, and declaring it here too would give that frame two parents. -->
+<robot name="lio" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Base -->
+  <link name="base_link"/>
+
+  <!-- External IMU -->
+  <link name="imu"/>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu"/>
+    <origin xyz="0.062 0.0 0.015" rpy="0 0 -1.57079632679"/>
+  </joint>
+
+  <!-- Ouster sensor body -->
+  <link name="os_sensor"/>
+  <joint name="os_sensor_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="os_sensor"/>
+    <origin xyz="-0.1105 0.0 0.404" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Ouster lidar frame -->
+  <link name="os_lidar"/>
+  <joint name="os_lidar_joint" type="fixed">
+    <parent link="os_sensor"/>
+    <child link="os_lidar"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Ouster internal IMU -->
+  <link name="os_imu"/>
+  <joint name="os_imu_joint" type="fixed">
+    <parent link="os_sensor"/>
+    <child link="os_imu"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- GPS -->
+  <link name="gps"/>
+  <joint name="gps_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps"/>
+    <origin xyz="0.25 -0.11 0.204" rpy="0 0 0"/>
+  </joint>
+
+</robot>

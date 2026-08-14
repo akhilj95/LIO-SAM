@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!-- FRUC RoboSense-32 platform (Go1 / bunkermini).
+     Ported verbatim from Forestry-Robotics-UC/fruc_lio_sam
+     launch/include/config/robot.urdf.xacro - geometry unchanged.
+
+     The lidar is mounted 17.7 degrees nose-down (pitch 0.309 rad); that tilt is
+     load-bearing, not decorative. params_rslidar.yaml sets lidarFrame to
+     "velodyne", so base_link -> chassis_link -> velodyne published here is what
+     TransformFusion resolves for its lidar->baselink lookup.
+
+     Deliberately no "lidar_link": mapOptimization broadcasts odom -> lidar_link
+     itself, and declaring it here too would give that frame two parents. -->
+<robot name="lio" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="PI" value="3.1415926535897931" />
+
+  <link name="chassis_link"></link>
+
+  <link name="base_link"></link>
+  <joint name="base_link_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="imu_link"> </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="imu_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="velodyne"> </link>
+  <joint name="velodyne_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="velodyne" />
+    <origin xyz="0.15 0 0.13" rpy="0 0.309 0" />
+  </joint>
+
+  <link name="navsat_link"> </link>
+  <joint name="navsat_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="navsat_link" />
+    <origin xyz="-0.20 0 0.35" rpy="0 0 0" />
+  </joint>
+
+</robot>
