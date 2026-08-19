@@ -16,6 +16,12 @@
 
 /**:
   ros__parameters:
+
+    # Read by run.launch.py, not by any node: the robot model to publish
+    # and the topic navsat_transform_node's 'imu' input is remapped to.
+    # Keeping them here means selecting this file selects the whole setup.
+    urdfFile: "fruc_rslidar.urdf.xacro"
+    navsatImuTopic: "imu_data_resampled"
     pointCloudTopic: "rslidar_points_dense"
     imuTopic: "imu_data_resampled"
     odomTopic: "odometry/imu"

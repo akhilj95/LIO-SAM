@@ -1,4 +1,5 @@
 import os
+import yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
@@ -7,50 +8,52 @@ from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
 
-# platform -> (params file, urdf, navsat IMU topic)
+# There is exactly one thing to choose: the parameters file. Everything that
+# varies per robot travels inside it, so a config cannot be paired with the
+# wrong URDF:
 #
-# The third entry is the topic navsat_transform_node's 'imu' input is remapped
-# to. ROS 2 subscribes to 'imu' where ROS 1 used 'imu/data', and FRUC's
-# module_navsat.launch remaps it per robot - so it has to travel with the
-# platform rather than be hardcoded.
+#   urdfFile         robot model to publish, relative to config/
+#   navsatImuTopic   topic navsat_transform_node's 'imu' input is remapped to.
+#                    ROS 2 subscribes to 'imu' where ROS 1 used 'imu/data', and
+#                    FRUC remaps it per robot in module_navsat.launch.
 #
-# 'default' reproduces the stock LIO-SAM setup and remains the default, so
-# existing usage is unchanged. The rest are ported from
-# Forestry-Robotics-UC/fruc_lio_sam.
-PLATFORMS = {
-    'default':  ('params.yaml',         'robot.urdf.xacro',          'imu_correct'),
-    'rslidar':  ('params_rslidar.yaml', 'fruc_rslidar.urdf.xacro',   'imu_data_resampled'),
-    'ouster':   ('params_ouster.yaml',  'fruc_ouster.urdf.xacro',    '/imu/data/corrected'),
-    'curtmini': ('params_ouster.yaml',  'fruc_curtmini.urdf.xacro',  '/imu/data/corrected'),
-    'hesai':    ('params_hesai.yaml',   'fruc_hesai.urdf.xacro',     'imu/data/corrected'),
-}
+# Both are optional; omitting them gives the stock LIO-SAM setup. No node
+# declares them, so they are ignored as parameters and only read here.
+DEFAULT_URDF = 'robot.urdf.xacro'
+DEFAULT_NAVSAT_IMU = 'imu_correct'
+
+
+def resolve(path, config_dir):
+    """Bare names resolve against the package config dir; paths are taken as-is."""
+    return path if os.path.isabs(path) else os.path.join(config_dir, path)
 
 
 def launch_setup(context, *args, **kwargs):
     share_dir = get_package_share_directory('lio_sam')
+    config_dir = os.path.join(share_dir, 'config')
+    rviz_config_file = os.path.join(config_dir, 'rviz2.rviz')
 
-    platform = LaunchConfiguration('platform').perform(context)
-    if platform not in PLATFORMS:
+    params_file = resolve(
+        LaunchConfiguration('params_file').perform(context), config_dir)
+    if not os.path.exists(params_file):
         raise RuntimeError(
-            "unknown platform '{}'. Choose one of: {}".format(
-                platform, ', '.join(sorted(PLATFORMS))))
-    default_params, default_urdf, navsat_imu_topic = PLATFORMS[platform]
+            'params file not found: {}\nAvailable in {}: {}'.format(
+                params_file, config_dir,
+                ', '.join(sorted(f for f in os.listdir(config_dir)
+                                 if f.endswith('.yaml')))))
 
-    # Empty means "use the platform default"; an explicit value wins.
-    params_file = (LaunchConfiguration('params_file').perform(context)
-                   or os.path.join(share_dir, 'config', default_params))
-    xacro_path = (LaunchConfiguration('urdf_file').perform(context)
-                  or os.path.join(share_dir, 'config', default_urdf))
-    rviz_config_file = os.path.join(share_dir, 'config', 'rviz2.rviz')
+    with open(params_file) as fh:
+        common = (yaml.safe_load(fh) or {}).get('/**', {}).get('ros__parameters', {})
 
-    for path, what in ((params_file, 'params file'), (xacro_path, 'urdf')):
-        if not os.path.exists(path):
-            raise RuntimeError('{} not found: {}'.format(what, path))
+    xacro_path = resolve(common.get('urdfFile', DEFAULT_URDF), config_dir)
+    if not os.path.exists(xacro_path):
+        raise RuntimeError("urdfFile '{}' from {} does not exist: {}".format(
+            common.get('urdfFile'), os.path.basename(params_file), xacro_path))
+    navsat_imu_topic = common.get('navsatImuTopic', DEFAULT_NAVSAT_IMU)
 
-    print('lio_sam platform : {}'.format(platform))
-    print('  params         : {}'.format(params_file))
-    print('  urdf           : {}'.format(xacro_path))
-    print('  navsat imu     : {}'.format(navsat_imu_topic))
+    print('lio_sam params : {}'.format(os.path.basename(params_file)))
+    print('  urdf         : {}'.format(os.path.basename(xacro_path)))
+    print('  navsat imu   : {}'.format(navsat_imu_topic))
 
     # value_type=bool so the string from the CLI arrives as a real boolean;
     # a bare LaunchConfiguration would be declared as a string parameter.
@@ -160,17 +163,11 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
-            'platform',
-            default_value='default',
-            description='Robot/sensor preset: ' + ' | '.join(sorted(PLATFORMS))),
-        DeclareLaunchArgument(
             'params_file',
-            default_value='',
-            description='Override the platform default parameters file.'),
-        DeclareLaunchArgument(
-            'urdf_file',
-            default_value='',
-            description='Override the platform default URDF/xacro.'),
+            default_value='params.yaml',
+            description='Parameters file: a name in config/, or an absolute '
+                        'path. It also selects the URDF and the navsat IMU '
+                        'topic, via its urdfFile / navsatImuTopic entries.'),
         # Follow /clock from `ros2 bag play --clock` instead of the system
         # clock. Set to false when running against live sensors.
         # (unchanged: same default_value='true' as before)

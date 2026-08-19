@@ -1,9 +1,11 @@
-# LIO-SAM parameters - FRUC hesai platform.
+# LIO-SAM parameters - FRUC curtmini platform.
 #
-# Ported from Forestry-Robotics-UC/fruc_lio_sam config/hesai.yaml (ROS 1).
-# Hesai-128. GPS is DISABLED upstream via gpsTopic "odometry/gpsz" (dead
-#   topic) - kept as-is. Very tight keyframe thresholds (0.05 m / 0.07 rad)
-#   and dense global-map visualisation: high-resolution forestry scanning.
+# Ported from Forestry-Robotics-UC/fruc_lio_sam config/ouster.yaml (ROS 1).
+# Same OS-128 sensor settings as params_ouster.yaml; differs only in the
+#   robot model (curtmini chassis). Kept as a full file rather than an
+#   overlay so one file always describes one complete setup.
+# Ouster OS-128. Subscribes to the driver directly: FRUC's ouster_filter.py
+#   NaN stage is redundant in ROS 2 (see the pointCloudTopic note below).
 #
 # ROS 2 notes:
 #  - Every double MUST be a float literal (50.0, not 50). ROS 2 infers the
@@ -20,13 +22,25 @@
     # Read by run.launch.py, not by any node: the robot model to publish
     # and the topic navsat_transform_node's 'imu' input is remapped to.
     # Keeping them here means selecting this file selects the whole setup.
-    urdfFile: "fruc_hesai.urdf.xacro"
+    urdfFile: "fruc_curtmini.urdf.xacro"
     navsatImuTopic: "imu/data/corrected"
-    pointCloudTopic: "/lidar_points_clean"
-    imuTopic: "imu/data/corrected"
+    # FRUC's ROS 1 setup chained: driver -> (their correction step) ->
+    # /ouster/points/corrected -> ouster_filter.py -> /ouster/points_clean.
+    # The filter existed only because stock ROS 1 LIO-SAM calls ros::shutdown()
+    # on any cloud with is_dense == false. The ROS 2 branch already calls
+    # pcl::removeNaNFromPointCloud() in imageProjection::cachePointCloud()
+    # (upstream 9d039fd), which sets is_dense itself - so that stage is
+    # redundant here, and Python over a 128x2048 cloud at 10-20 Hz would cost
+    # real time. We subscribe to the driver directly.
+    #
+    # NOTE: this also bypasses FRUC's "corrected" step, which is not in their
+    # repo and which I could not inspect. If results look wrong, that step is
+    # the first thing to look at - point this back at /ouster/points/corrected.
+    pointCloudTopic: "/ouster/points"
+    imuTopic: "/imu/data/corrected"
     odomTopic: "odometry/imu"
-    gpsTopic: "odometry/gpsz"
-    lidarFrame: "hesai_lidar"
+    gpsTopic: "odometry/gps"
+    lidarFrame: "os_lidar"
     baselinkFrame: "base_link"
     odometryFrame: "odom"
     mapFrame: "map"
@@ -36,10 +50,10 @@
     poseCovThreshold: 25.0
     savePCD: true
     savePCDDirectory: "/Downloads/LOAM/"
-    sensor: "velodyne"
+    sensor: "ouster"
     N_SCAN: 128
-    Horizon_SCAN: 1800
-    downsampleRate: 1
+    Horizon_SCAN: 2048
+    downsampleRate: 2
     lidarMinRange: 1.0
     lidarMaxRange: 1000.0
     imuAccNoise: 0.003993957088823881
@@ -48,9 +62,9 @@
     imuGyrBiasN: 3.564031869636761e-05
     imuGravity: 9.80511
     imuRPYWeight: 0.01
-    extrinsicTrans: [-0.388186, 0.022004, 0.066264]
-    extrinsicRot: [0.0, 1.0, 0.0, 0.0, 0.0, -1.0, -1.0, 0.0, 0.0]
-    extrinsicRPY: [0.0, 1.0, 0.0, 0.0, 0.0, -1.0, -1.0, 0.0, 0.0]
+    extrinsicTrans: [0.0151, 0.047, -0.1478]
+    extrinsicRot: [-1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0]
+    extrinsicRPY: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
     edgeThreshold: 1.0
     surfThreshold: 0.1
     edgeFeatureMinValidNum: 10
@@ -62,8 +76,8 @@
     rotation_tollerance: 1000.0
     numberOfCores: 4
     mappingProcessInterval: 0.15
-    surroundingkeyframeAddingDistThreshold: 0.05
-    surroundingkeyframeAddingAngleThreshold: 0.07
+    surroundingkeyframeAddingDistThreshold: 1.0
+    surroundingkeyframeAddingAngleThreshold: 0.2
     surroundingKeyframeDensity: 2.0
     surroundingKeyframeSearchRadius: 50.0
     loopClosureEnableFlag: true
@@ -74,8 +88,8 @@
     historyKeyframeSearchNum: 25
     historyKeyframeFitnessScore: 0.3
     globalMapVisualizationSearchRadius: 1000.0
-    globalMapVisualizationPoseDensity: 1.0
-    globalMapVisualizationLeafSize: 0.3
+    globalMapVisualizationPoseDensity: 10.0
+    globalMapVisualizationLeafSize: 1.0
 
 # robot_localization nodes read parameters from a section named after the
 # node, so these must match the node names in run.launch.py.
@@ -86,8 +100,8 @@ navsat:
     delay: 0.0
     magnetic_declination_radians: 0.0
     yaw_offset: 0.0
-    zero_altitude: false
-    broadcast_cartesian_transform: true
+    zero_altitude: true
+    broadcast_cartesian_transform: false
     publish_filtered_gps: false
 
 ekf_gps:
@@ -96,7 +110,7 @@ ekf_gps:
     map_frame: "map"
     odom_frame: "odom"
     base_link_frame: "base_link"
-    world_frame: "map"
+    world_frame: "odom"
     frequency: 50.0
     two_d_mode: false
     sensor_timeout: 0.01

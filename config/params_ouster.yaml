@@ -15,6 +15,12 @@
 
 /**:
   ros__parameters:
+
+    # Read by run.launch.py, not by any node: the robot model to publish
+    # and the topic navsat_transform_node's 'imu' input is remapped to.
+    # Keeping them here means selecting this file selects the whole setup.
+    urdfFile: "fruc_ouster.urdf.xacro"
+    navsatImuTopic: "imu/data/corrected"
     # FRUC's ROS 1 setup chained: driver -> (their correction step) ->
     # /ouster/points/corrected -> ouster_filter.py -> /ouster/points_clean.
     # The filter existed only because stock ROS 1 LIO-SAM calls ros::shutdown()
