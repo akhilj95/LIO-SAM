@@ -1,34 +1,45 @@
 <?xml version="1.0"?>
-<!-- FRUC Curt Mini platform (Ouster OS-128 on a mast).
-     Ported verbatim from Forestry-Robotics-UC/fruc_lio_sam
-     launch/include/config/curtmini.urdf.xacro - geometry unchanged.
+<!-- FRUC Curt Mini platform (Ouster OS-1-128 on a mast).
 
-     Use with params_ouster.yaml (lidarFrame "os_lidar"). Note the external IMU
-     is yawed -90 degrees relative to base_link; that is the physical mount, and
-     it is NOT the same thing as extrinsicRot/extrinsicRPY in the params file,
-     which describe the IMU-to-lidar rotation LIO-SAM applies internally.
+     Cross-checked against the platform's description,
+     errorcodecritical/curt_dataset_recorder ros2_ws/src/curt_description/urdf/
+     {robot,sensors,properties}.xacro (their base_link_curt / imu_curt /
+     gps_curt are this file's base_link / imu / gps).
+
+     That repo declares os_sensor->os_lidar as IDENTITY and puts a 180 deg yaw
+     on base_link->os_sensor. Each entry is wrong on its own, but they cancel,
+     and the COMPOSITION base_link->os_lidar = Rz(180) is right. 
+
+     Cloud +x forward and os_lidar +x backward can only both hold if the cloud
+     is not os_lidar. That is why params_curtmini.yaml sets lidarFrame to
+     os_sensor.
 
      Deliberately no "lidar_link": mapOptimization broadcasts odom -> lidar_link
-     itself, and declaring it here too would give that frame two parents. -->
+     itself (mapOptmization.cpp:1651) and TransformFusion broadcasts
+     odom -> base_link (imuPreintegration.cpp:149). Declaring either here would
+     give that frame two parents. -->
+     
 <robot name="lio" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- Base -->
+  <!-- Base. Its parent is odom, broadcast by TransformFusion. -->
   <link name="base_link"/>
 
-  <!-- External IMU -->
+  <!-- External IMU (Xsens), source of /imu/data. Yawed +90 deg on the chassis. -->
   <link name="imu"/>
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
     <child link="imu"/>
-    <origin xyz="0.062 0.0 0.015" rpy="0 0 -1.57079632679"/>
+    <origin xyz="0.062 0.0 0.015" rpy="0 0 1.5707963267948966"/>
   </joint>
 
-  <!-- Ouster sensor body -->
+  <!-- Ouster sensor body. Its +x points the way the robot drives. This is
+       also the frame the recorded point clouds are actually in, which is why
+       params_curtmini.yaml names it as lidarFrame. -->
   <link name="os_sensor"/>
   <joint name="os_sensor_joint" type="fixed">
     <parent link="base_link"/>
     <child link="os_sensor"/>
-    <origin xyz="-0.1105 0.0 0.404" rpy="0 0 0"/>
+    <origin xyz="0.1105 0.0 0.404" rpy="0 0 0"/>
   </joint>
 
   <!-- Ouster lidar frame -->
@@ -36,23 +47,26 @@
   <joint name="os_lidar_joint" type="fixed">
     <parent link="os_sensor"/>
     <child link="os_lidar"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0.0 0.0 0.0382" rpy="0 0 3.141592653589793"/>
   </joint>
 
-  <!-- Ouster internal IMU -->
+  <!-- Ouster internal IMU. Unused by this config (only 100 Hz, and it reports
+       no orientation), kept so /ouster/imu stays resolvable. -->
   <link name="os_imu"/>
   <joint name="os_imu_joint" type="fixed">
     <parent link="os_sensor"/>
     <child link="os_imu"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="-0.0024 -0.0097 0.0075" rpy="0 0 0"/>
   </joint>
 
-  <!-- GPS -->
+  <!-- GPS antenna. The link name MUST stay "gps": navsat_transform_node looks
+       up base_link -> <frame_id of the incoming NavSatFix>, and /fix is stamped
+       "gps" in both bags. -->
   <link name="gps"/>
   <joint name="gps_joint" type="fixed">
     <parent link="base_link"/>
     <child link="gps"/>
-    <origin xyz="0.25 -0.11 0.204" rpy="0 0 0"/>
+    <origin xyz="-0.25 0.11 0.204" rpy="0 0 0"/>
   </joint>
 
 </robot>

@@ -1,15 +1,26 @@
 # LIO-SAM parameters - FRUC ouster platform.
 #
 # Ported from Forestry-Robotics-UC/fruc_lio_sam config/ouster.yaml (ROS 1).
-# Ouster OS-128. Subscribes to the driver directly: FRUC's ouster_filter.py
-#   NaN stage is redundant in ROS 2 (see the pointCloudTopic note below).
+# Ouster OS-128 on the "apparatus" rig. Subscribes to the driver directly:
+#   FRUC's ouster_filter.py NaN stage is redundant in ROS 2 (see the
+#   pointCloudTopic note below).
+#
+# FRUC ships no yaml->urdf mapping, so the pairing had to be recovered from the
+# numbers: the extrinsics below are apparatus.urdf.xacro's geometry exactly
+# (see the header of fruc_ouster.urdf.xacro for the arithmetic). This file used
+# to point at a port of robot_ouster_he-bo.urdf.xacro, whose geometry implies a
+# completely different lidar->IMU transform - 180 deg of yaw and ~0.17 m out.
+# That mismatch does not disturb LIO-SAM's own odometry, which reads only
+# extrinsicRot/extrinsicTrans, but it corrupts every frame downstream of TF:
+# TransformFusion's lidar->baselink lookup, and so odom->base_link and the
+# whole GPS chain.
 #
 # ROS 2 notes:
-#  - Every double MUST be a float literal (50.0, not 50). ROS 2 infers the
-#    parameter type from the literal and an int where a double is declared
-#    is a hard startup error. The upstream ROS 1 file had several ints.
-#  - broadcast_utm_transform -> broadcast_cartesian_transform (ROS 2 name);
-#    broadcast_utm_transform_as_parent_frame has no ROS 2 equivalent, dropped.
+#  - broadcast_utm_transform -> broadcast_cartesian_transform (ROS 2 name).
+#    Its companion _as_parent_frame flag is omitted because the transform is
+#    not broadcast at all here: navsat_transform.cpp only sends the map<->utm
+#    edge when broadcast_cartesian_transform is true, so the direction flag is
+#    inert. Upstream ouster.yaml leaves both false, same as stock LIO-SAM.
 #  - lidarFrame != baselinkFrame here, which activates the lidar->baselink
 #    tf lookup in TransformFusion. The URDF must provide that transform.
 
@@ -21,73 +32,91 @@
     # Keeping them here means selecting this file selects the whole setup.
     urdfFile: "fruc_ouster.urdf.xacro"
     navsatImuTopic: "imu/data/corrected"
-    # FRUC's ROS 1 setup chained: driver -> (their correction step) ->
-    # /ouster/points/corrected -> ouster_filter.py -> /ouster/points_clean.
-    # The filter existed only because stock ROS 1 LIO-SAM calls ros::shutdown()
-    # on any cloud with is_dense == false. The ROS 2 branch already calls
-    # pcl::removeNaNFromPointCloud() in imageProjection::cachePointCloud()
-    # (upstream 9d039fd), which sets is_dense itself - so that stage is
-    # redundant here, and Python over a 128x2048 cloud at 10-20 Hz would cost
-    # real time. We subscribe to the driver directly.
-    #
-    # NOTE: this also bypasses FRUC's "corrected" step, which is not in their
-    # repo and which I could not inspect. If results look wrong, that step is
-    # the first thing to look at - point this back at /ouster/points/corrected.
+    # Topic navsat_transform_node's 'gps/fix' input is remapped to.
+    gpsFixTopic: "/fix"
+
     pointCloudTopic: "/ouster/points"
     imuTopic: "/imu/data/corrected"
     odomTopic: "odometry/imu"
-    gpsTopic: "odometry/gps"
+    gpsTopic: "odometry/gps"            # GPS odometry topic from navsat
+
     lidarFrame: "os_lidar"
     baselinkFrame: "base_link"
     odometryFrame: "odom"
     mapFrame: "map"
-    useImuHeadingInitialization: true
-    useGpsElevation: false
-    gpsCovThreshold: 2.0
-    poseCovThreshold: 25.0
+
+    # GPS Settings
+    useImuHeadingInitialization: true   # if using GPS data, set to "true"
+    useGpsElevation: false              # if GPS elevation is bad, set to "false"
+    gpsCovThreshold: 2.0                # m^2, threshold for using GPS data
+    poseCovThreshold: 25.0              # m^2, threshold for using GPS data
+
+    # Export settings
     savePCD: true
-    savePCDDirectory: "/Downloads/LOAM/"
+    savePCDDirectory: "/Downloads/LOAM/"  #Warning: the code deletes "LOAM" folder then recreates it.
+
+    # Sensor Settings
     sensor: "ouster"
-    N_SCAN: 128
-    Horizon_SCAN: 2048
-    downsampleRate: 2
-    lidarMinRange: 1.0
-    lidarMaxRange: 1000.0
+    N_SCAN: 128                         # number of lidar channel (i.e., Velodyne/Ouster: 16, 32, 64, 128, Livox Horizon: 6)
+    Horizon_SCAN: 2048                  # lidar horizontal resolution (Velodyne:1800, Ouster:512,1024,2048, Livox Horizon: 4000)
+    downsampleRate: 2                   # default: 1. Downsample your data if too many points. i.e., 16 = 64 / 4, 16 = 16 / 1
+    lidarMinRange: 1.0                  # default: 1.0, minimum lidar range to be used
+    lidarMaxRange: 1000.0               # default: 1000.0, maximum lidar range to be used
+
+    # IMU Settings
     imuAccNoise: 0.003993957088823881
     imuGyrNoise: 0.0015636343949698187
     imuAccBiasN: 6.435665935353257e-05
     imuGyrBiasN: 3.564031869636761e-05
     imuGravity: 9.80511
     imuRPYWeight: 0.01
+
+    # Extrinsic between Lidar and IMU
     extrinsicTrans: [0.0151, 0.047, -0.1478]
     extrinsicRot: [-1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0]
-    extrinsicRPY: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+    extrinsicRPY: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]    # Different if IMU changes RPY.
+
+    # LOAM feature threshold
     edgeThreshold: 1.0
     surfThreshold: 0.1
     edgeFeatureMinValidNum: 10
     surfFeatureMinValidNum: 100
-    odometrySurfLeafSize: 0.4
-    mappingCornerLeafSize: 0.2
-    mappingSurfLeafSize: 0.4
-    z_tollerance: 1000.0
-    rotation_tollerance: 1000.0
-    numberOfCores: 4
-    mappingProcessInterval: 0.15
-    surroundingkeyframeAddingDistThreshold: 1.0
-    surroundingkeyframeAddingAngleThreshold: 0.2
-    surroundingKeyframeDensity: 2.0
-    surroundingKeyframeSearchRadius: 50.0
-    loopClosureEnableFlag: true
-    loopClosureFrequency: 1.0
-    surroundingKeyframeSize: 50
-    historyKeyframeSearchRadius: 15.0
-    historyKeyframeSearchTimeDiff: 30.0
-    historyKeyframeSearchNum: 25
-    historyKeyframeFitnessScore: 0.3
-    globalMapVisualizationSearchRadius: 1000.0
-    globalMapVisualizationPoseDensity: 10.0
-    globalMapVisualizationLeafSize: 1.0
 
+    # voxel filter paprams
+    odometrySurfLeafSize: 0.4       # default: 0.4 - outdoor, 0.2 - indoor
+    mappingCornerLeafSize: 0.2      # default: 0.2 - outdoor, 0.1 - indoor
+    mappingSurfLeafSize: 0.4        # default: 0.4 - outdoor, 0.2 - indoor
+
+    # robot motion constraint (in case you are using a 2D robot)
+    z_tollerance: 1000.0            # meters
+    rotation_tollerance: 1000.0     # radians
+
+    # CPU Params
+    numberOfCores: 4                # number of cores for mapping optimization
+    mappingProcessInterval: 0.15    # seconds, regulate mapping frequency
+
+    # Surrounding map
+    surroundingkeyframeAddingDistThreshold: 1.0     # meters, regulate keyframe adding threshold
+    surroundingkeyframeAddingAngleThreshold: 0.2    # radians, regulate keyframe adding threshold
+    surroundingKeyframeDensity: 2.0                 # meters, downsample surrounding keyframe poses
+    surroundingKeyframeSearchRadius: 50.0           # meters, within n meters scan-to-map optimization (when loop closure disabled)
+
+    # Loop closure
+    loopClosureEnableFlag: true
+    loopClosureFrequency: 1.0              # Hz, regulate loop closure constraint add frequency
+    surroundingKeyframeSize: 50            # submap size (when loop closure enabled)
+    historyKeyframeSearchRadius: 15.0      # meters, key frame that is within n meters from current pose will be considerd for loop closure
+    historyKeyframeSearchTimeDiff: 30.0    # seconds, key frame that is n seconds older will be considered for loop closure
+    historyKeyframeSearchNum: 25           # number of hostory key frames will be fused into a submap for loop closure
+    historyKeyframeFitnessScore: 0.3       # icp threshold, the smaller the better alignment
+
+    # Visualization
+    globalMapVisualizationSearchRadius: 1000.0    # meters, global map visualization radius
+    globalMapVisualizationPoseDensity: 10.0       # meters, global map visualization keyframe density
+    globalMapVisualizationLeafSize: 1.0           # meters, global map visualization cloud density
+
+
+# Navsat (convert GPS coordinates to Cartesian)
 # robot_localization nodes read parameters from a section named after the
 # node, so these must match the node names in run.launch.py.
 navsat:
@@ -101,6 +130,8 @@ navsat:
     broadcast_cartesian_transform: false
     publish_filtered_gps: false
 
+
+# EKF for Navsat
 ekf_gps:
   ros__parameters:
     publish_tf: false

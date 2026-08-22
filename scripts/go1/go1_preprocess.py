@@ -11,8 +11,7 @@ params_rslidar.yaml expects:
     everything else                                     passed through
 
 Frames are renamed to match the URDF (rslidar -> velodyne, base -> base_link,
-gps -> navsat_link), which is what lets navsat_transform_node find the antenna
-offset without FRUC's gps_tf_broadcaster.py.
+gps -> navsat_link), which is what lets navsat_transform_node find the antenna.
 
     ./go1_preprocess.py extracted -o preprocessed
 """

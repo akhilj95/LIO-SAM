@@ -1,3 +1,5 @@
+# LIO-SAM parameters - For datasets provided with original LIO-SAM
+
 /**:
   ros__parameters:
 
@@ -107,10 +109,6 @@
 # Unlike the block above these are NOT under /** — robot_localization reads its
 # parameters from a section named after the node, so these keys must match the
 # node names in run.launch.py ('navsat' and 'ekf_gps').
-#
-# Every number here must be a float literal (50.0, not 50). ROS 2 infers the
-# parameter type from the literal, and an int where a double is declared is a
-# hard startup error — this is the main porting trap coming from ROS 1.
 # ==============================================================================
 
 # Navsat (convert GPS coordinates to Cartesian)

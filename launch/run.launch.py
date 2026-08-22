@@ -14,13 +14,17 @@ from launch_ros.parameter_descriptions import ParameterValue
 #
 #   urdfFile         robot model to publish, relative to config/
 #   navsatImuTopic   topic navsat_transform_node's 'imu' input is remapped to.
-#                    ROS 2 subscribes to 'imu' where ROS 1 used 'imu/data', and
-#                    FRUC remaps it per robot in module_navsat.launch.
+#                    ROS 2 subscribes to 'imu' (navsat_transform.cpp:211) where
+#                    ROS 1 used 'imu/data'.
+#   gpsFixTopic      topic navsat_transform_node's 'gps/fix' input is remapped
+#                    to.
 #
-# Both are optional; omitting them gives the stock LIO-SAM setup. No node
-# declares them, so they are ignored as parameters and only read here.
+# All three are optional, and each default is the stock value, so omitting them
+# gives the stock LIO-SAM setup unchanged. No node declares them, so they are
+# ignored as parameters and only read here.
 DEFAULT_URDF = 'robot.urdf.xacro'
 DEFAULT_NAVSAT_IMU = 'imu_correct'
+DEFAULT_GPS_FIX = 'gps/fix'
 
 
 def resolve(path, config_dir):
@@ -50,10 +54,12 @@ def launch_setup(context, *args, **kwargs):
         raise RuntimeError("urdfFile '{}' from {} does not exist: {}".format(
             common.get('urdfFile'), os.path.basename(params_file), xacro_path))
     navsat_imu_topic = common.get('navsatImuTopic', DEFAULT_NAVSAT_IMU)
+    gps_fix_topic = common.get('gpsFixTopic', DEFAULT_GPS_FIX)
 
     print('lio_sam params : {}'.format(os.path.basename(params_file)))
     print('  urdf         : {}'.format(os.path.basename(xacro_path)))
     print('  navsat imu   : {}'.format(navsat_imu_topic))
+    print('  navsat fix   : {}'.format(gps_fix_topic))
 
     # value_type=bool so the string from the CLI arrives as a real boolean;
     # a bare LaunchConfiguration would be declared as a string parameter.
@@ -68,9 +74,7 @@ def launch_setup(context, *args, **kwargs):
                           LaunchConfiguration('log_level')]]
 
     return [
-        # map -> odom. Keep this the ONLY publisher of that transform: FRUC's
-        # scripts/static_transforms.py also publishes it, and running both
-        # would give odom two parents.
+        # map -> odom.
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
@@ -78,7 +82,7 @@ def launch_setup(context, *args, **kwargs):
             parameters=[params_file, {'use_sim_time': use_sim_time}],
             output='screen'
             ),
-        # Publishes the sensor mounts from the URDF. For every FRUC platform
+        # Publishes the sensor mounts from the URDF. Since the
         # lidarFrame != baselinkFrame, so this is what makes TransformFusion's
         # lidar->baselink lookup resolvable.
         Node(
@@ -113,6 +117,7 @@ def launch_setup(context, *args, **kwargs):
             parameters=[params_file, {'use_sim_time': use_sim_time}],
             # ROS 2 subscribes to 'imu', not ROS 1's 'imu/data'.
             remappings=[('imu', navsat_imu_topic),
+                        ('gps/fix', gps_fix_topic),
                         ('odometry/filtered', 'odometry/navsat')],
             output='screen'
         ),
@@ -170,7 +175,6 @@ def generate_launch_description():
                         'topic, via its urdfFile / navsatImuTopic entries.'),
         # Follow /clock from `ros2 bag play --clock` instead of the system
         # clock. Set to false when running against live sensors.
-        # (unchanged: same default_value='true' as before)
         DeclareLaunchArgument(
             'use_sim_time',
             default_value='true',
