@@ -1,6 +1,20 @@
-# LIO-SAM parameters - FRUC curtmini platform.
+# LIO-SAM parameters - FRUC curtmini platform, 180 deg flipped cloud.
 #
-# Ported from Forestry-Robotics-UC/fruc_lio_sam config/ouster.yaml (ROS 1).
+# Identical to params_curtmini.yaml except for lidarFrame, extrinsicRot,
+# extrinsicRPY and extrinsicTrans. Keep the two in sync when tuning anything
+# else.
+#
+# WHICH FILE DO I WANT?
+#
+# The Curt Mini bags/packet decoders don't seem consistent. Some conversions 
+# apply a 180 deg yaw to put the points in the "os_lidar" frame. If:
+#
+#   points +x FORWARD  (the way the robot drives)  -> params_curtmini.yaml
+#   points +x BACKWARD (decoder applied the 180)   -> this file
+#
+# To tell them apart without play the bag and look at /ouster/points in RViz 
+# with the urdf in this folder.
+#
 
 /**:
   ros__parameters:
@@ -19,10 +33,13 @@
     pointCloudTopic: "/ouster/points"
     imuTopic: "/imu/data"
     odomTopic: "odometry/imu"
-    gpsTopic: "odometry/gps"            # GPS odometry topic from navsat
+    gpsTopic: "odometry/gps"            # GPS odometry topic from navsat.
 
     # Frames
-    lidarFrame: "os_sensor"             # The ouster puts points in os_sensor frame 
+    # os_sensor yawed 180 deg, same origin - declared in the URDF. NOT os_lidar:
+    # a real OS-1 os_lidar also sits 0.0382 m above os_sensor, and the offline
+    # decoder only rotates the points, it never translates them.
+    lidarFrame: "os_sensor_flipped"
     baselinkFrame: "base_link"
     odometryFrame: "odom"
     mapFrame: "map"
@@ -53,11 +70,11 @@
     imuGravity: 9.80511
     imuRPYWeight: 0.01
 
-    # Extrinsic between Lidar and IMU
+    # Extrinsic between Lidar and IMU.
     # All T_lb (lidar <- imu): the rotations map IMU-frame vectors into lidar axes, and extrinsicTrans is the IMU origin expressed in LIDAR axes.
-    extrinsicTrans: [-0.0485, 0.0, -0.389]
-    extrinsicRot: [0.0, -1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
-    extrinsicRPY: [0.0, -1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]    # Different if IMU changes RPY.
+    extrinsicTrans: [0.0485, 0.0, -0.389]
+    extrinsicRot: [0.0, 1.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+    extrinsicRPY: [0.0, 1.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0]    # Different if IMU changes RPY.
 
     # LOAM feature threshold
     edgeThreshold: 1.0

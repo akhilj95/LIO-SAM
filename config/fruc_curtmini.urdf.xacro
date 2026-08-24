@@ -3,16 +3,11 @@
 
      Cross-checked against the platform's description,
      errorcodecritical/curt_dataset_recorder ros2_ws/src/curt_description/urdf/
-     {robot,sensors,properties}.xacro (their base_link_curt / imu_curt /
-     gps_curt are this file's base_link / imu / gps).
+     {robot,sensors,properties}.xacro. That repo declares os_sensor->os_lidar 
+     as IDENTITY and puts a 180 deg yaw on base_link->os_sensor.
 
-     That repo declares os_sensor->os_lidar as IDENTITY and puts a 180 deg yaw
-     on base_link->os_sensor. Each entry is wrong on its own, but they cancel,
-     and the COMPOSITION base_link->os_lidar = Rz(180) is right. 
-
-     Cloud +x forward and os_lidar +x backward can only both hold if the cloud
-     is not os_lidar. That is why params_curtmini.yaml sets lidarFrame to
-     os_sensor.
+     using the stanadard: Cloud +x as forward params_curtmini.yaml sets lidarFrame
+     to os_sensor.
 
      Deliberately no "lidar_link": mapOptimization broadcasts odom -> lidar_link
      itself (mapOptmization.cpp:1651) and TransformFusion broadcasts
@@ -50,6 +45,18 @@
     <origin xyz="0.0 0.0 0.0382" rpy="0 0 3.141592653589793"/>
   </joint>
 
+  <!-- Same origin as os_sensor, yawed 180 deg. Used only by
+       params_curtmini_flipped.yaml, for bags whose offline decoder rotated the
+       points into what curt_dataset_recorder calls "os_lidar".
+       Harmless when unused: it is a leaf with one parent, and lidarFrame is
+       what selects it. -->
+  <link name="os_sensor_flipped"/>
+  <joint name="os_sensor_flipped_joint" type="fixed">
+    <parent link="os_sensor"/>
+    <child link="os_sensor_flipped"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 3.141592653589793"/>
+  </joint>
+
   <!-- Ouster internal IMU. Unused by this config (only 100 Hz, and it reports
        no orientation), kept so /ouster/imu stays resolvable. -->
   <link name="os_imu"/>
@@ -61,7 +68,7 @@
 
   <!-- GPS antenna. The link name MUST stay "gps": navsat_transform_node looks
        up base_link -> <frame_id of the incoming NavSatFix>, and /fix is stamped
-       "gps" in both bags. -->
+       "gps" -->
   <link name="gps"/>
   <joint name="gps_joint" type="fixed">
     <parent link="base_link"/>
