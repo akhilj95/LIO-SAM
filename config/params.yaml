@@ -49,7 +49,7 @@
     imuGravity: 9.80511
     imuRPYWeight: 0.01
 
-    # Extrinsics: T_lb (lidar -> imu)
+    # Extrinsics, all T_lb (lidar <- imu): the rotations map IMU-frame vectors into lidar axes, and extrinsicTrans is the IMU origin expressed in LIDAR axes.
     extrinsicTrans:  [ 0.0,  0.0,  0.0 ]
     extrinsicRot:    [-1.0,  0.0,  0.0,
                        0.0,  1.0,  0.0,
