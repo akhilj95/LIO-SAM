@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<!-- FRUC Ouster OS-128 platform ("apparatus" rig).
+
+     Geometry from Forestry-Robotics-UC/fruc_dataset_apparatus
+     docker_ws/src/apparatus_description/urdf/robot.urdf.xacro, the platform's
+     own description. FRUC's lio_sam copy (launch/include/config/
+     apparatus.urdf.xacro) agrees with it EXACTLY on the three joints LIO-SAM
+     depends on - base_link->os_sensor, os_sensor->os_lidar, base_link->
+     xsens_imu - which is what confirms this yaml/urdf pairing. It differs on
+     three things that do not reach LIO-SAM, all resolved in the description's
+     favour below: the os_imu z (typo), the RealSense calibration (older), and
+     a stray joint_os_lidar_to_camera_color_optical_frame that would have given
+     camera_color_optical_frame a second parent. The description also adds the
+     GPS antenna, which FRUC's copy lacked entirely.
+
+     Two frame names confirmed against the rig's own driver configs rather than
+     inferred:
+       - shared/ouster_config.yaml sets point_cloud_frame: os_lidar, so
+         params_apparatus.yaml's lidarFrame: "os_lidar" is right.
+       - shared/scripts/xsens.launch.xml passes frame_id:=xsens_imu, so the
+         ekf_node TF path below resolves.
+     Note that config also sets proc_mask: "RAW" - the bags carry packets, not
+     PointCloud2, so the cloud is decoded offline, same as the other two FRUC
+     platforms. Whatever decodes it is what actually decides the point frame.
+
+     NOT robot_ouster_he-bo.urdf.xacro, which this file used to transcribe.
+     That was wrong: params_apparatus.yaml's extrinsics come from FRUC's
+     config/ouster.yaml, and those numbers are this rig's, exactly. Compose
+     base_link -> os_sensor -> os_lidar and invert against base_link -> xsens_imu:
+
+       R = Rz(180)^T                            = [-1 0 0; 0 -1 0; 0 0 1]
+       t = Rz(180)^T ((-0.015121,-0.046950,0.0586) - (0,0,0.206440))
+         = (0.015121, 0.046950, -0.147840)
+
+     which is ouster.yaml's extrinsicRot and extrinsicTrans [0.0151, 0.0470,
+     -0.1478] to every digit it prints. he-bo's geometry (xsens at base_link
+     identity, os_lidar at (0.15,0,0.13) unrotated) would instead demand
+     (-0.15, 0, -0.13) with R = I - nothing like it. he-bo is orphaned upstream:
+     no FRUC params file matches it, so nothing here needs it.
+
+     The 180 deg yaw on base_link -> os_sensor is upstream's and is kept. Note
+     it sits on the MOUNT here, unlike fruc_curtmini.urdf.xacro where the same
+     180 belongs to the OS-1's internal lidar_to_sensor_transform and sits on
+     os_sensor -> os_lidar. This file leaves os_sensor -> os_lidar identity
+     because that is how FRUC calibrated the rest of the rig against it; the
+     composition base_link -> os_lidar = Rz(180) is what the extrinsics use, and
+     it is the same either way.
+
+     GPS gap now closed, from the platform's own description
+     (Forestry-Robotics-UC/fruc_dataset_apparatus
+     docker_ws/src/apparatus_description/urdf/robot.urdf.xacro), which adds the
+     antenna joint FRUC's lio_sam copy never had. See the gps link below for
+     the naming caveat - the description calls it "gps_link" but the driver
+     stamps "gps", and navsat looks up by the stamped name.
+
+     Deliberately no "lidar_link": mapOptimization broadcasts odom -> lidar_link
+     itself, and declaring it here too would give that frame two parents. -->
+<robot name="lio" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Base. Upstream carries a mesh visual (apperatus.obj); dropped, the file
+       is not in the repo and robot_state_publisher does not need it. -->
+  <link name="base_link"/>
+
+  <!-- Ouster sensor body, yawed 180 deg on the mount. -->
+  <link name="os_sensor"/>
+  <joint name="base_link_to_os_sensor" type="fixed">
+    <parent link="base_link"/>
+    <child link="os_sensor"/>
+    <origin xyz="0 0 0.206440" rpy="0 0 3.141592653589793"/>
+  </joint>
+
+  <!-- Ouster lidar frame. Identity to the sensor body, as both FRUC and the
+       apparatus description have it; params_apparatus.yaml names this as
+       lidarFrame, and ouster_config.yaml's point_cloud_frame agrees.
+
+       A real OS-1 does NOT have these coincident: its internal
+       lidar_to_sensor_transform is a 180 deg yaw plus ~36 mm of z. The rig's
+       description absorbs the 180 into base_link -> os_sensor instead, so the
+       COMPOSED base_link -> os_lidar rotation comes out right either way - but
+       the z only comes out right if 0.206440 was measured to the lidar origin
+       rather than to the sensor body. If it was measured to the body, every
+       pose carries a ~36 mm vertical bias. Not resolvable from the repos;
+       check against the rig if maps ever look 3-4 cm low. -->
+  <link name="os_lidar"/>
+  <joint name="os_sensor_to_os_lidar" type="fixed">
+    <parent link="os_sensor"/>
+    <child link="os_lidar"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Ouster internal IMU, from the Kalibr camera-IMU calibration. Unused by
+       this config (LIO-SAM reads the Xsens), kept so /ouster/imu stays
+       resolvable.
+
+       z is the apparatus_description value, 0.0514881960085294. FRUC's
+       apparatus.urdf.xacro has 0.05514881960085294 - the same digits with an
+       extra 5 spliced in, i.e. a typo worth 3.7 mm. The description repo wins.
+       Nothing in this config reads it either way. -->
+  <link name="os_imu"/>
+  <joint name="os_sensor_to_os_imu" type="fixed">
+    <parent link="os_sensor"/>
+    <child link="os_imu"/>
+    <origin xyz="-0.03516933627986119 0.026844313894637633 0.0514881960085294"
+            rpy="0.0527437133816158 -0.06297509863959863 1.5228784764076906"/>
+  </joint>
+
+  <!-- Xsens IMU, source of /imu/data/corrected and the frame every extrinsic
+       in params_apparatus.yaml is measured against. If you change this origin,
+       recompute extrinsicTrans/extrinsicRot there.
+
+       robot_localization's ekf_node transforms its IMU input into
+       base_link_frame through TF, so if the /imu/data/corrected messages carry
+       a frame_id other than "xsens_imu", every IMU sample is dropped and the
+       whole GPS chain silently never initialises. LIO-SAM itself is unaffected
+       either way - it uses extrinsicRot/extrinsicRPY, not TF. -->
+  <link name="xsens_imu"/>
+  <joint name="base_link_to_xsens_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="xsens_imu"/>
+    <origin xyz="-0.015121 -0.046950 0.0586" rpy="0 0 0"/>
+  </joint>
+
+  <!-- GPS antenna (Emlid Reach), from apparatus_description/robot.urdf.xacro.
+
+       The link name MUST match the frame_id the NavSatFix messages carry:
+       navsat_transform_node reads gps_frame_id off the incoming gps/fix header
+       (navsat_transform.cpp:736) and does lookupTransform(base_link,
+       gps_frame_id) (:650, :697). The apparatus description names this link
+       "gps_link", but its emlid-launch.sh runs
+       `ros2 run nmea_navsat_driver nmea_serial_driver` with NO params file, so
+       the driver's own default applies - libnmea_navsat_driver/driver.py:290
+       declares frame_id defaulting to "gps". So the messages say "gps" and the
+       description says "gps_link"; the origin below is the description's, the
+       name is the driver's. If a bag turns out to carry "gps_link" instead,
+       rename this link rather than adding a second one. -->
+  <link name="gps"/>
+  <joint name="base_link_to_gps" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps"/>
+    <origin xyz="0 -0.128 0.012" rpy="0 0 0"/>
+  </joint>
+
+  <!-- RealSense. Unused by LIO-SAM, carried over for completeness. -->
+  <!-- os_sensor -> camera_link and camera_link -> camera_color_frame are the
+       apparatus_description values, which are a LATER calibration than FRUC's
+       apparatus.urdf.xacro: the position moved and the yaw gained pi
+       (${pi + 1.558103710329454} = 4.699696364, written out below). FRUC's
+       older numbers are not carried. Nothing LIO-SAM reads depends on either. -->
+  <link name="camera_link"/>
+  <joint name="os_sensor_to_camera_link" type="fixed">
+    <parent link="os_sensor"/>
+    <child link="camera_link"/>
+    <origin xyz="0.01424664 -0.07454732 -0.12227248"
+            rpy="0.0013625367954899733 0.003069697768602153 4.699696363919247"/>
+  </joint>
+
+  <link name="camera_depth_frame"/>
+  <joint name="camera_link_to_depth_frame" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_depth_frame"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="camera_depth_optical_frame"/>
+  <joint name="camera_depth_frame_to_optical" type="fixed">
+    <parent link="camera_depth_frame"/>
+    <child link="camera_depth_optical_frame"/>
+    <origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
+  </joint>
+
+  <link name="camera_color_frame"/>
+  <joint name="camera_link_to_color_frame" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_color_frame"/>
+    <origin xyz="-0.000466 0.014719 0.000251"
+            rpy="0.012458 0.003109 0.003694"/>
+  </joint>
+
+  <link name="camera_color_optical_frame"/>
+  <joint name="camera_color_frame_to_optical" type="fixed">
+    <parent link="camera_color_frame"/>
+    <child link="camera_color_optical_frame"/>
+    <origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
+  </joint>
+
+</robot>

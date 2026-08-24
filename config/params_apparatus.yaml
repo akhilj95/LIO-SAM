@@ -7,7 +7,7 @@
 #
 # FRUC ships no yaml->urdf mapping, so the pairing had to be recovered from the
 # numbers: the extrinsics below are apparatus.urdf.xacro's geometry exactly
-# (see the header of fruc_ouster.urdf.xacro for the arithmetic). This file used
+# (see the header of fruc_apparatus.urdf.xacro for the arithmetic). This file used
 # to point at a port of robot_ouster_he-bo.urdf.xacro, whose geometry implies a
 # completely different lidar->IMU transform - 180 deg of yaw and ~0.17 m out.
 # That mismatch does not disturb LIO-SAM's own odometry, which reads only
@@ -30,7 +30,7 @@
     # Read by run.launch.py, not by any node: the robot model to publish
     # and the topic navsat_transform_node's 'imu' input is remapped to.
     # Keeping them here means selecting this file selects the whole setup.
-    urdfFile: "fruc_ouster.urdf.xacro"
+    urdfFile: "fruc_apparatus.urdf.xacro"
     navsatImuTopic: "imu/data/corrected"
     # Topic navsat_transform_node's 'gps/fix' input is remapped to.
     gpsFixTopic: "/fix"
@@ -72,9 +72,25 @@
     imuRPYWeight: 0.01
 
     # Extrinsic between Lidar and IMU
+    # All T_lb (lidar <- imu): the rotations map IMU-frame vectors into lidar axes, and extrinsicTrans is the IMU origin expressed in LIDAR axes.
+    #
+    # extrinsicRPY CHANGED from upstream ouster.yaml, which had it as identity
+    # while extrinsicRot was Rz(180). Both are T_lb, so for one IMU they can
+    # only differ when its attitude output uses different axes than its
+    # acc/gyro - which is the Microstrain quirk stock LIO-SAM ships for, not an
+    # Xsens MTi. The MTi reports both in the same body frame, so identity here
+    # left the attitude roll/pitch sign-flipped and yaw 180 deg out, feeding
+    # imuRPYWeight and useImuHeadingInitialization. Gravity is unaffected by a
+    # pure yaw, which is likely why it never looked broken.
+    #
+    # Upstream had clearly been experimenting - the stock Microstrain pair sits
+    # commented out directly above it in FRUC's ouster.yaml - so this is read as
+    # an untouched leftover rather than a deliberate compensation for something
+    # in the "corrected" IMU stream. UNVERIFIED against a bag: if heading
+    # initialisation regresses, that assumption is what to revisit.
     extrinsicTrans: [0.0151, 0.047, -0.1478]
     extrinsicRot: [-1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0]
-    extrinsicRPY: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]    # Different if IMU changes RPY.
+    extrinsicRPY: [-1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0]
 
     # LOAM feature threshold
     edgeThreshold: 1.0
