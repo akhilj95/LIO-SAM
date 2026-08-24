@@ -1,0 +1,1908 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <link name="20220058_耐落十字盘头螺钉_m2_6">
+        <inertial>
+            <mass value="2.60063e-08" />
+            <origin xyz="8.73996e-20 -0.00196618 -6.82502e-22" rpy="0 -0 0" />
+            <inertia ixx="7.8336e-14" ixy="0" ixz="0" iyy="3.31982e-14" iyz="0" izz="7.8336e-14" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_20220058__________M2_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="20220058_耐落十字盘头螺钉_m2_6_1">
+        <inertial>
+            <mass value="2.60063e-08" />
+            <origin xyz="8.73996e-20 -0.00196618 -6.82502e-22" rpy="0 -0 0" />
+            <inertia ixx="7.8336e-14" ixy="0" ixz="0" iyy="3.31982e-14" iyz="0" izz="7.8336e-14" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_20220058__________M2_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="20220058_耐落十字盘头螺钉_m2_6_2">
+        <inertial>
+            <mass value="2.60063e-08" />
+            <origin xyz="8.73996e-20 -0.00196618 -6.82502e-22" rpy="0 -0 0" />
+            <inertia ixx="7.8336e-14" ixy="0" ixz="0" iyy="3.31982e-14" iyz="0" izz="7.8336e-14" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_20220058__________M2_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="20220058_耐落十字盘头螺钉_m2_6_3">
+        <inertial>
+            <mass value="2.60063e-08" />
+            <origin xyz="8.73996e-20 -0.00196618 -6.82502e-22" rpy="0 -0 0" />
+            <inertia ixx="7.8336e-14" ixy="0" ixz="0" iyy="3.31982e-14" iyz="0" izz="7.8336e-14" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_20220058__________M2_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="210000722">
+        <inertial>
+            <mass value="5.0388e-05" />
+            <origin xyz="-0.000719833 0.00797759 0.00055236" rpy="0 -0 0" />
+            <inertia ixx="3.81257e-08" ixy="4.53901e-11" ixz="-1.82855e-10" iyy="6.69352e-08" iyz="1.65335e-10" izz="3.68438e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_210000722.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="hesai_lidar">
+        <inertial>
+            <mass value="3.54543e-05" />
+            <origin xyz="3.60929e-17 0.0325377 -8.29378e-18" rpy="1.57 -0 0" />
+            <inertia ixx="3.78835e-08" ixy="0" ixz="0" iyy="5.40715e-08" iyz="0" izz="3.78835e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="1.57 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_25085490_QT128___V2_0A0.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.082353_0.082353_0.082353_0.000000_0.000000">
+                <color rgba="0.0823529 0.0823529 0.0823529 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="502_mfm0572">
+        <inertial>
+            <mass value="0.000138767" />
+            <origin xyz="0.0394159 0.0377686 0.0153731" rpy="0 -0 0" />
+            <inertia ixx="1.78561e-07" ixy="1.07361e-09" ixz="-5.77812e-10" iyy="2.22911e-07" iyz="2.94262e-10" izz="3.8789e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0.0375 0.0375 0.033" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_502_MFM0572.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.501961_0.501961_0.501961_0.000000_0.000000">
+                <color rgba="0.501961 0.501961 0.501961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="radar_1">
+        <inertial>
+            <mass value="2.93529e-05" />
+            <origin xyz="1.71499e-10 -1.6419e-10 0.00273817" rpy="-1.57 -0 0" />
+            <inertia ixx="4.42717e-08" ixy="1.35997e-12" ixz="0" iyy="5.45764e-08" iyz="0" izz="9.78091e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.57 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_502_MFP0044.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.109804_0.109804_0.109804_0.000000_0.000000">
+                <color rgba="0.109804 0.109804 0.109804 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="600_13737_0000_a01">
+        <inertial>
+            <mass value="1.71817e-05" />
+            <origin xyz="0.0481466 0.0419946 0.000785" rpy="0 -0 0" />
+            <inertia ixx="1.58366e-08" ixy="-6.40503e-12" ixz="0" iyy="1.5926e-08" iyz="0" izz="3.17555e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_600_13737_0000_A01.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.498039_0.498039_0.498039_0.000000_0.000000">
+                <color rgba="0.498039 0.498039 0.498039 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="602_00007_1">
+        <inertial>
+            <mass value="6.43779e-08" />
+            <origin xyz="0.0695091 -0.0219904 -0.00223951" rpy="0 -0 0" />
+            <inertia ixx="6.54799e-13" ixy="0" ixz="0" iyy="6.54841e-13" iyz="0" izz="1.13714e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_602_00007_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="602_00007_1_1">
+        <inertial>
+            <mass value="6.43779e-08" />
+            <origin xyz="0.0183491 -0.0219904 -0.00223951" rpy="0 -0 0" />
+            <inertia ixx="6.54799e-13" ixy="0" ixz="0" iyy="6.54841e-13" iyz="0" izz="1.13714e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_602_00007_1_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.615686_0.811765_0.929412_0.000000_0.000000">
+                <color rgba="0.615686 0.811765 0.929412 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="602_00007_1_2">
+        <inertial>
+            <mass value="6.43779e-08" />
+            <origin xyz="0.0737991 -0.00350039 -0.00223951" rpy="0 -0 0" />
+            <inertia ixx="6.54799e-13" ixy="0" ixz="0" iyy="6.54841e-13" iyz="0" izz="1.13714e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_602_00007_1_2.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.647059_0.647059_0.647059_0.000000_0.000000">
+                <color rgba="0.647059 0.647059 0.647059 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="602_00007_1_3">
+        <inertial>
+            <mass value="6.43779e-08" />
+            <origin xyz="0.0157491 -0.00350039 -0.00223951" rpy="0 -0 0" />
+            <inertia ixx="6.54799e-13" ixy="0" ixz="0" iyy="6.54841e-13" iyz="0" izz="1.13714e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_602_00007_1_3.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.231373_0.380392_0.705882_0.000000_0.000000">
+                <color rgba="0.231373 0.380392 0.705882 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="606_00013_02_6">
+        <inertial>
+            <mass value="5.28711e-06" />
+            <origin xyz="0.04443 -0.0117643 0.00756731" rpy="0 -0 0" />
+            <inertia ixx="4.5871e-10" ixy="1.52284e-12" ixz="1.30136e-11" iyy="4.24249e-09" iyz="1.19905e-11" izz="4.67221e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_606_00013_02_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.972549_0.529412_0.003922_0.000000_0.000000">
+                <color rgba="0.972549 0.529412 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="606_00014_02_5">
+        <inertial>
+            <mass value="2.06767e-05" />
+            <origin xyz="0.0373269 0.000131764 0.00910485" rpy="0 -0 0" />
+            <inertia ixx="2.05318e-09" ixy="-8.59665e-11" ixz="-1.34501e-11" iyy="1.66385e-08" iyz="-1.59785e-11" izz="1.77983e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.007 0.01175 0.013" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_606_00014_02_5.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.498039_0.498039_0.498039_0.000000_0.000000">
+                <color rgba="0.498039 0.498039 0.498039 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="611_00016_20">
+        <inertial>
+            <mass value="9.82365e-08" />
+            <origin xyz="0.0632437 -0.00704037 0.0023009" rpy="0 -0 0" />
+            <inertia ixx="1.28378e-12" ixy="0" ixz="0" iyy="2.7916e-12" iyz="0" izz="4.03347e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_611_00016_20.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.647059_0.647059_0.647059_0.000000_0.000000">
+                <color rgba="0.647059 0.647059 0.647059 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="611_00018_9">
+        <inertial>
+            <mass value="1.98811e-07" />
+            <origin xyz="0.0445 -0.00698625 0.0063509" rpy="0 -0 0" />
+            <inertia ixx="3.5467e-12" ixy="0" ixz="0" iyy="3.5467e-12" iyz="0" izz="6.88631e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_611_00018_9.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.768627_0.886275_0.952941_0.000000_0.000000">
+                <color rgba="0.768627 0.886275 0.952941 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="611_00020_16_1">
+        <inertial>
+            <mass value="2.5919e-07" />
+            <origin xyz="0.082 -0.00698622 0.0066009" rpy="0 -0 0" />
+            <inertia ixx="4.52365e-12" ixy="0" ixz="0" iyy="4.52365e-12" iyz="0" izz="8.65852e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_611_00020_16_1.gltf" scale="1 1 1" />
+            </geometry>
+        </visual>
+    </link>
+    <link name="611_00020_16__1_">
+        <inertial>
+            <mass value="1e-09" />
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <inertia ixx="4e-14" ixy="0" ixz="0" iyy="4e-14" iyz="0" izz="4e-14" />
+        </inertial>
+    </link>
+    <link name="612_00002_6">
+        <inertial>
+            <mass value="5e-08" />
+            <origin xyz="0.03043 -0.01299 -0.00105" rpy="0 -0 0" />
+            <inertia ixx="4.17708e-13" ixy="0" ixz="0" iyy="4.17708e-13" iyz="0" izz="8.33333e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_612_00002_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.498039_0.498039_0.498039_0.000000_0.000000">
+                <color rgba="0.498039 0.498039 0.498039 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="612_00003_6">
+        <inertial>
+            <mass value="4.95e-07" />
+            <origin xyz="0.0585 -0.008 -0.00055" rpy="0 -0 0" />
+            <inertia ixx="9.37406e-12" ixy="0" ixz="0" iyy="2.00578e-11" iyz="0" izz="2.92463e-11" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_612_00003_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.972549_0.529412_0.003922_0.000000_0.000000">
+                <color rgba="0.972549 0.529412 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="_mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="1.94005e-10" />
+            <origin xyz="0.00654955 0.024755 0.000743914" rpy="0 -0 0" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.407843_0.321569_0.000000_0.000000">
+                <color rgba="0.917647 0.407843 0.321569 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="_mti_6x0r_simple_2__mti_6x0r_simple_1">
+        <inertial>
+            <mass value="1.59726e-10" />
+            <origin xyz="-0.00685629 0.024755 0.0011395" rpy="0 -0 0" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="1.03503e-15" iyz="0" izz="0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_MTi_6x0R_simple_2__MTi_6x0R_simple_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.407843_0.321569_0.000000_0.000000">
+                <color rgba="0.917647 0.407843 0.321569 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="_mti_6x0r_simple_2__mti_6x0r_simple_2">
+        <inertial>
+            <mass value="1.96917e-10" />
+            <origin xyz="-0.013421 0.024755 0.000677911" rpy="0 -0 0" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="1.01315e-15" iyz="0" izz="0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_MTi_6x0R_simple_2__MTi_6x0R_simple_2.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.407843_0.321569_0.000000_0.000000">
+                <color rgba="0.917647 0.407843 0.321569 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="_mti_6x0r_simple_2__mti_6x0r_simple_3">
+        <inertial>
+            <mass value="7.72548e-11" />
+            <origin xyz="0.0141036 0.024755 0.000715696" rpy="0 -0 0" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_MTi_6x0R_simple_2__MTi_6x0R_simple_3.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.407843_0.321569_0.000000_0.000000">
+                <color rgba="0.917647 0.407843 0.321569 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="_mti_6x0r_simple_2__mti_6x0r_simple_4">
+        <inertial>
+            <mass value="2.25801e-10" />
+            <origin xyz="-5.09875e-05 0.024755 0.00075991" rpy="0 -0 0" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="1.22058e-15" iyz="0" izz="0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_MTi_6x0R_simple_2__MTi_6x0R_simple_4.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.407843_0.321569_0.000000_0.000000">
+                <color rgba="0.917647 0.407843 0.321569 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="_mti_6x0r_simple_2__mti_6x0r_simple_5">
+        <inertial>
+            <mass value="7.24245e-11" />
+            <origin xyz="0.0111493 0.024755 0.000715669" rpy="0 -0 0" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/_MTi_6x0R_simple_2__MTi_6x0R_simple_5.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.407843_0.321569_0.000000_0.000000">
+                <color rgba="0.917647 0.407843 0.321569 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="aeva/vehicle">
+        <inertial>
+            <mass value="0.000581481" />
+            <origin xyz="-0.0674424 0.0208309 -0.0463801" rpy="0 -0 0" />
+            <inertia ixx="6.23132e-07" ixy="-1.73002e-09" ixz="-2.13667e-08" iyy="1.49034e-06" iyz="-9.88598e-09" izz="1.06008e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.0692731 0.0003 -0.0474015" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/ATLAS_PRE_DV_NO_FOV_110524.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.615686_0.811765_0.929412_0.000000_0.000000">
+                <color rgba="0.615686 0.811765 0.929412 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="base_t1">
+        <inertial>
+            <mass value="0.000267741" />
+            <origin xyz="-0.178284 -0.014385 0.0175" rpy="0 -0 0" />
+            <inertia ixx="1.36276e-07" ixy="0" ixz="0" iyy="2.95107e-07" iyz="0" izz="3.76719e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/BASE_T1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.231373_0.380392_0.705882_0.000000_0.000000">
+                <color rgba="0.231373 0.380392 0.705882 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="bottom_housing_casted_3_mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="9.92875e-06" />
+            <origin xyz="-1.77891e-06 0.00351828 -0.00405742" rpy="0 -0 0" />
+            <inertia ixx="2.79926e-09" ixy="5.80831e-14" ixz="2.43848e-13" iyy="4.37477e-09" iyz="1.54801e-10" izz="1.73457e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Bottom_Housing_Casted_3_MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.407843_0.321569_0.000000_0.000000">
+                <color rgba="0.917647 0.407843 0.321569 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="cable_spacer">
+        <inertial>
+            <mass value="6.04369e-06" />
+            <origin xyz="0.05803 -0.0463758 0.00269439" rpy="0 -0 0" />
+            <inertia ixx="8.33489e-10" ixy="0" ixz="0" iyy="2.31951e-10" iyz="-2.0363e-11" izz="1.00905e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/CABLE_SPACER.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.917647_0.917647_0.000000_0.000000">
+                <color rgba="0.917647 0.917647 0.917647 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="copy__2__of__mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="2.71414e-08" />
+            <origin xyz="0.0066 0.0145 -0.0180836" rpy="0 -0 0" />
+            <inertia ixx="4.14755e-13" ixy="0" ixz="0" iyy="4.14755e-13" iyz="0" izz="8.26117e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Copy__2__of__MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.000000_0.000000_0.000000_0.000000_0.000000">
+                <color rgba="0 0 0 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="copy__3__of__mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="6.36576e-09" />
+            <origin xyz="-0.00857456 0.00994247 0.0218327" rpy="0 -0 0" />
+            <inertia ixx="1.3416e-14" ixy="0" ixz="0" iyy="8.34992e-14" iyz="0" izz="9.68964e-14" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Copy__3__of__MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="copy__4__of__mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="6.36576e-09" />
+            <origin xyz="0.00857456 0.00994247 0.0218327" rpy="0 -0 0" />
+            <inertia ixx="1.3416e-14" ixy="0" ixz="0" iyy="8.34992e-14" iyz="0" izz="9.68964e-14" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Copy__4__of__MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="cs2_62x_o_ring_20190509">
+        <inertial>
+            <mass value="4.84865e-07" />
+            <origin xyz="0 -0.00016923 1.26795e-19" rpy="0 -0 0" />
+            <inertia ixx="5.00975e-11" ixy="0" ixz="0" iyy="9.97793e-11" iyz="0" izz="5.00975e-11" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/CS2_62X_O_Ring_20190509.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.498039_0.498039_0.498039_0.000000_0.000000">
+                <color rgba="0.498039 0.498039 0.498039 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="customized_model_for_l1l2_helix_20190529_1">
+        <inertial>
+            <mass value="4.51023e-05" />
+            <origin xyz="-2.72414e-12 0.0302958 1.81928e-12" rpy="0 -0 0" />
+            <inertia ixx="1.70622e-08" ixy="0" ixz="0" iyy="5.28245e-09" iyz="0" izz="1.70851e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="-3.45101e-19 0.00619352 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Customized_model_for_L1L2_Helix_20190529_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="oak_parent_frame">
+        <inertial>
+            <mass value="1.52404e-06" />
+            <origin xyz="0.0444301 -0.0118015 0.00963482" rpy="0 -0 0" />
+            <inertia ixx="9.44611e-11" ixy="5.12404e-13" ixz="-3.07443e-14" iyy="1.12936e-09" iyz="-2.87506e-14" izz="1.22373e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/D_PRO_W_GLASS_LENS_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.615686_0.811765_0.929412_0.000000_0.000000">
+                <color rgba="0.615686 0.811765 0.929412 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="oak">
+        <inertial>
+            <mass value="3.51525e-07" />
+            <origin xyz="0.0423449 -0.0137533 0.0092009" rpy="0 -0 0" />
+            <inertia ixx="2.27268e-11" ixy="5.12646e-12" ixz="0" iyy="2.46751e-10" iyz="0" izz="2.69475e-10" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.57 -0 -1.57" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/D_PRO_W_LENS_ADHESIVE_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="decorative_nut_odu_amc_size0_mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="1.14856e-07" />
+            <origin xyz="-6.0309e-11 1.11711e-11 0.001206" rpy="0 -0 0" />
+            <inertia ixx="1.86477e-12" ixy="0" ixz="0" iyy="1.86477e-12" iyz="1.9273e-15" izz="3.61609e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Decorative_Nut_ODU_AMC_size0_MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.000000_0.000000_0.000000_0.000000_0.000000">
+                <color rgba="0 0 0 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="fan_cover_concord_collapsible">
+        <inertial>
+            <mass value="7.47114e-05" />
+            <origin xyz="0.0360253 0.0423709 0.0289418" rpy="0 -0 0" />
+            <inertia ixx="1.4157e-07" ixy="1.27777e-09" ixz="-2.60276e-09" iyy="1.07192e-07" iyz="7.39439e-10" izz="2.16052e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/FAN_COVER_CONCORD_COLLAPSIBLE.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.262745_0.282353_0.301961_0.000000_0.000000">
+                <color rgba="0.262745 0.282353 0.301961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="foot_concord">
+        <inertial>
+            <mass value="2.45015e-05" />
+            <origin xyz="0.0517628 0.0417833 -0.0145594" rpy="0 -0 0" />
+            <inertia ixx="4.97622e-08" ixy="3.86291e-10" ixz="-3.26937e-11" iyy="4.46119e-08" iyz="-8.59962e-11" izz="9.21459e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/FOOT_CONCORD.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.811765_0.858824_0.898039_0.000000_0.000000">
+                <color rgba="0.811765 0.858824 0.898039 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="foot_concord_button_rubber">
+        <inertial>
+            <mass value="1.93367e-07" />
+            <origin xyz="-0.00542037 0.0386353 -0.00340107" rpy="0 -0 0" />
+            <inertia ixx="2.12684e-11" ixy="2.43742e-12" ixz="-3.92595e-13" iyy="1.597e-12" iyz="1.49971e-12" izz="2.16125e-11" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/FOOT_CONCORD_BUTTON_RUBBER.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.639216_0.639216_0.639216_0.000000_0.000000">
+                <color rgba="0.639216 0.639216 0.639216 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="foot_rubber_concord">
+        <inertial>
+            <mass value="1.11615e-06" />
+            <origin xyz="0.0483408 0.0880122 -0.02315" rpy="0 -0 0" />
+            <inertia ixx="1.49344e-11" ixy="9.9731e-14" ixz="0" iyy="9.85352e-10" iyz="0" izz="1.00014e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/FOOT_RUBBER_CONCORD.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.600000_0.600000_0.600000_0.000000_0.000000">
+                <color rgba="0.6 0.6 0.6 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="foot_rubber_concord_2">
+        <inertial>
+            <mass value="1.11615e-06" />
+            <origin xyz="0.0483408 -0.00451217 -0.02315" rpy="0 -0 0" />
+            <inertia ixx="1.49344e-11" ixy="-9.9731e-14" ixz="0" iyy="9.85352e-10" iyz="0" izz="1.00014e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/FOOT_RUBBER_CONCORD_2.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.600000_0.600000_0.600000_0.000000_0.000000">
+                <color rgba="0.6 0.6 0.6 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="gc0wxm_p12um00_000l_mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="6.86524e-07" />
+            <origin xyz="5.44489e-11 5.19427e-06 0.00408532" rpy="0 -0 0" />
+            <inertia ixx="1.4286e-11" ixy="1.95151e-15" ixz="0" iyy="1.39853e-11" iyz="1.34095e-14" izz="1.22472e-11" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/GC0WxM_P12UM00_000L_MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.250980_0.250980_0.250980_0.000000_0.000000">
+                <color rgba="0.25098 0.25098 0.25098 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="heatsink_concord">
+        <inertial>
+            <mass value="4.60047e-05" />
+            <origin xyz="0.0424704 0.0425388 0.0267891" rpy="0 -0 0" />
+            <inertia ixx="4.60991e-08" ixy="1.52713e-09" ixz="-3.21285e-10" iyy="3.2325e-08" iyz="-1.46235e-10" izz="7.50997e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/HEATSINK_CONCORD.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.145098_0.749020_0.713725_0.000000_0.000000">
+                <color rgba="0.145098 0.74902 0.713726 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="m2_5_insert_for_helix_family">
+        <inertial>
+            <mass value="1.04222e-07" />
+            <origin xyz="3.21248e-06 -1.26751e-05 0.00448872" rpy="0 -0 0" />
+            <inertia ixx="9.73998e-13" ixy="0" ixz="0" iyy="9.74084e-13" iyz="0" izz="2.98383e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/M2_5_Insert_for_Helix_family.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.972549_0.529412_0.003922_0.000000_0.000000">
+                <color rgba="0.972549 0.529412 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="membrane_ve90510_mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="2.47226e-08" />
+            <origin xyz="6.38375e-37 0.000167496 -1.21609e-19" rpy="0 -0 0" />
+            <inertia ixx="1.6753e-13" ixy="0" ixz="0" iyy="3.34666e-13" iyz="0" izz="1.6753e-13" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Membrane_VE90510_MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="1.000000_1.000000_1.000000_0.000000_0.000000">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="o_ring_mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="3.45599e-07" />
+            <origin xyz="1.1369e-17 0.00817247 0.000173739" rpy="0 -0 0" />
+            <inertia ixx="8.17529e-11" ixy="0" ixz="0" iyy="1.50386e-10" iyz="1.41162e-11" izz="7.38085e-11" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/O_ring_MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_1">
+        <inertial>
+            <mass value="0.00128346" />
+            <origin xyz="0.0705274 -0.0249872 -0.025" rpy="0 -0 0" />
+            <inertia ixx="1.67584e-06" ixy="-7.35148e-11" ixz="0" iyy="5.64094e-06" iyz="0" izz="6.79532e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="0.075 -0.025 -0.05" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.615686_0.811765_0.929412_0.000000_0.000000">
+                <color rgba="0.615686 0.811765 0.929412 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_10">
+        <inertial>
+            <mass value="0.000105057" />
+            <origin xyz="-0.00215215 0.177981 0.168" rpy="0 -0 0" />
+            <inertia ixx="1.10331e-07" ixy="-4.60448e-09" ixz="-6.82962e-11" iyy="1.14445e-07" iyz="6.45577e-13" izz="2.23106e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_10.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.439216_0.474510_0.501961_0.000000_0.000000">
+                <color rgba="0.439216 0.47451 0.501961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_11">
+        <inertial>
+            <mass value="0.000235444" />
+            <origin xyz="0.062365 0.0421091 -0.000909552" rpy="0 -0 0" />
+            <inertia ixx="2.79015e-07" ixy="3.25037e-10" ixz="3.16292e-11" iyy="5.89637e-07" iyz="-1.91118e-08" izz="8.25434e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0.0623322 -0.284548 -0.116" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_11.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_11_1">
+        <inertial>
+            <mass value="0.00018769" />
+            <origin xyz="0.0694369 -0.0465 0.000759487" rpy="0 -0 0" />
+            <inertia ixx="3.13141e-07" ixy="0" ixz="4.96168e-11" iyy="3.14613e-07" iyz="0" izz="6.24286e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0.0215 -0.08825 0.028" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_11_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.615686_0.811765_0.929412_0.000000_0.000000">
+                <color rgba="0.615686 0.811765 0.929412 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_12">
+        <inertial>
+            <mass value="0.000327965" />
+            <origin xyz="-0.102832 0.052 0.0457826" rpy="0 -0 0" />
+            <inertia ixx="9.69035e-07" ixy="0" ixz="3.9591e-09" iyy="5.12602e-07" iyz="0" izz="7.62742e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_12.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.701961_0.701961_0.701961_0.000000_0.000000">
+                <color rgba="0.701961 0.701961 0.701961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_13">
+        <inertial>
+            <mass value="0.000327965" />
+            <origin xyz="0.102832 0.052 0.0457826" rpy="0 -0 0" />
+            <inertia ixx="9.69035e-07" ixy="0" ixz="-3.9591e-09" iyy="5.12602e-07" iyz="0" izz="7.62742e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_13.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.701961_0.701961_0.701961_0.000000_0.000000">
+                <color rgba="0.701961 0.701961 0.701961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_15">
+        <inertial>
+            <mass value="0.000274796" />
+            <origin xyz="1.11737e-17 0.0616752 0.116143" rpy="0 -0 0" />
+            <inertia ixx="5.91462e-07" ixy="0" ixz="0" iyy="7.10557e-07" iyz="-7.43138e-08" izz="1.20527e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_15.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_1_1">
+        <inertial>
+            <mass value="1.60493e-05" />
+            <origin xyz="0.0305545 -5.54409e-05 0.0304823" rpy="0 -0 0" />
+            <inertia ixx="6.58596e-09" ixy="1.36497e-15" ixz="0" iyy="1.03263e-08" iyz="4.16652e-12" izz="5.59934e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.0344455 -0.0438212 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_1_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.231373_0.380392_0.705882_0.000000_0.000000">
+                <color rgba="0.231373 0.380392 0.705882 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_1_2">
+        <inertial>
+            <mass value="0.000105989" />
+            <origin xyz="0.115 0.206 0.00760493" rpy="0 -0 0" />
+            <inertia ixx="1.50277e-06" ixy="0" ixz="0" iyy="2.16994e-08" iyz="0" izz="1.51743e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_1_2.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.262745_0.282353_0.301961_0.000000_0.000000">
+                <color rgba="0.262745 0.282353 0.301961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_1_3">
+        <inertial>
+            <mass value="0.000698871" />
+            <origin xyz="-0.0287896 -0.0198324 -0.0952877" rpy="0 -0 0" />
+            <inertia ixx="2.89607e-06" ixy="5.77022e-10" ixz="-8.79662e-08" iyy="2.93516e-06" iyz="4.86516e-10" izz="1.24594e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.0342946 -0.0198 -0.17" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_1_3.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_2">
+        <inertial>
+            <mass value="1.12959e-05" />
+            <origin xyz="0.065 0.0657442 0.0269259" rpy="0 -0 0" />
+            <inertia ixx="4.17994e-09" ixy="0" ixz="0" iyy="4.98285e-09" iyz="6.5907e-11" izz="2.49302e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_2.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.615686_0.811765_0.929412_0.000000_0.000000">
+                <color rgba="0.615686 0.811765 0.929412 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_2_1">
+        <inertial>
+            <mass value="0.000105989" />
+            <origin xyz="-0.115 0.206 0.00760493" rpy="0 -0 0" />
+            <inertia ixx="1.50277e-06" ixy="0" ixz="0" iyy="2.16994e-08" iyz="0" izz="1.51743e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_2_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.262745_0.282353_0.301961_0.000000_0.000000">
+                <color rgba="0.262745 0.282353 0.301961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_3">
+        <inertial>
+            <mass value="0.000465208" />
+            <origin xyz="-0.103998 0.332183 0.0794399" rpy="0 -0 0" />
+            <inertia ixx="2.15336e-06" ixy="3.55779e-08" ixz="-2.13943e-07" iyy="1.55804e-06" iyz="1.7005e-07" izz="9.68672e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_3.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.701961_0.701961_0.701961_0.000000_0.000000">
+                <color rgba="0.701961 0.701961 0.701961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_4">
+        <inertial>
+            <mass value="0.000249155" />
+            <origin xyz="0.0846348 -0.06 0.00210258" rpy="0 -0 0" />
+            <inertia ixx="4.31812e-07" ixy="0" ixz="-1.50023e-08" iyy="5.71706e-07" iyz="0" izz="9.80785e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0.0810952 -0.06 0.005" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_4.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.917647_0.917647_0.917647_0.000000_0.000000">
+                <color rgba="0.917647 0.917647 0.917647 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_4_1">
+        <inertial>
+            <mass value="0.000465159" />
+            <origin xyz="0.0489562 -0.0297742 -0.0879511" rpy="0 -0 0" />
+            <inertia ixx="2.1529e-06" ixy="-3.55471e-08" ixz="2.13771e-07" iyy="1.55757e-06" iyz="1.69978e-07" izz="9.68537e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.0550454 -0.361959 -0.167382" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_4_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.701961_0.701961_0.701961_0.000000_0.000000">
+                <color rgba="0.701961 0.701961 0.701961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_5">
+        <inertial>
+            <mass value="0.000196062" />
+            <origin xyz="-2.18964e-05 0.336956 0.021576" rpy="0 -0 0" />
+            <inertia ixx="3.68741e-07" ixy="-1.45794e-10" ixz="-2.47322e-12" iyy="3.26955e-07" iyz="4.06251e-11" izz="6.92558e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_5.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.439216_0.474510_0.501961_0.000000_0.000000">
+                <color rgba="0.439216 0.47451 0.501961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_6">
+        <inertial>
+            <mass value="0.000441968" />
+            <origin xyz="-0.1021 0.19197 0.0855231" rpy="0 -0 0" />
+            <inertia ixx="2.21178e-06" ixy="5.64811e-10" ixz="-2.20164e-07" iyy="1.58109e-06" iyz="1.10639e-09" izz="9.91668e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_6.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.701961_0.701961_0.701961_0.000000_0.000000">
+                <color rgba="0.701961 0.701961 0.701961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="part_7">
+        <inertial>
+            <mass value="0.000440655" />
+            <origin xyz="0.10225 0.19207 0.0852831" rpy="0 -0 0" />
+            <inertia ixx="2.20164e-06" ixy="1.66298e-09" ixz="2.14854e-07" iyy="1.56915e-06" iyz="-2.44089e-09" izz="9.86705e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Part_7.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.701961_0.701961_0.701961_0.000000_0.000000">
+                <color rgba="0.701961 0.701961 0.701961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="pcie_cover_concord">
+        <inertial>
+            <mass value="1.63057e-05" />
+            <origin xyz="0.0988572 0.0414873 0.0282611" rpy="0 -0 0" />
+            <inertia ixx="2.38757e-08" ixy="-9.1907e-12" ixz="3.66044e-10" iyy="3.96312e-09" iyz="-4.60284e-11" izz="2.06191e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/PCIE_COVER_CONCORD.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.262745_0.282353_0.301961_0.000000_0.000000">
+                <color rgba="0.262745 0.282353 0.301961 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="sensor_link">
+        <visual>
+            <origin xyz="0.189334 -0.177884 0.259571" rpy="0 -1.5708 1.5708" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/NTHCF0B6X10S_2_C_0303.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.910000_0.910000_0.910000_0.000000_0.000000">
+                <color rgba="0.91 0.91 0.91 1" />
+            </material>
+        </visual>
+        <visual>
+            <origin xyz="0.189334 -0.177884 0.259571" rpy="0 -1.5708 1.5708" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/NTHCF0B6X10S_2_C_0303_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.910000_0.910000_0.910000_0.000000_0.000000">
+                <texture />
+                <color rgba="0.91 0.91 0.91 1" />
+            </material>
+        </visual>
+        <visual>
+            <origin xyz="0.189334 -0.177884 0.259571" rpy="0 -1.5708 1.5708" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/NTHCF0B6X10S_2_C_0303_2.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.910000_0.910000_0.910000_0.000000_0.000000">
+                <texture />
+                <color rgba="0.91 0.91 0.91 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="rosenberger___mps113_400xx_z_210201_lv_info">
+        <inertial>
+            <mass value="2.8131e-06" />
+            <origin xyz="-0.00485303 -4.38143e-05 0.00181323" rpy="0 -0 0" />
+            <inertia ixx="1.23488e-10" ixy="2.0151e-13" ixz="2.3893e-12" iyy="2.06597e-10" iyz="-1.76579e-13" izz="2.21612e-10" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Rosenberger___mps113_400xx_z_210201_LV_info.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.792157_0.819608_0.933333_0.000000_0.000000">
+                <color rgba="0.792157 0.819608 0.933333 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple">
+        <inertial>
+            <mass value="8.76886e-08" />
+            <origin xyz="0.00722155 -7.08165e-18 6.37987e-18" rpy="0 -0 0" />
+            <inertia ixx="9.28735e-14" ixy="0" ixz="0" iyy="2.17761e-12" iyz="0" izz="2.18104e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/slotted_countersunk_flat_head_screw_iso_ISO_2009___M2_5_x_16___16N_MTi_6x0R_simple_2__MTi_6x0R_simpl.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.501961_0.501961_0.000000_0.000000_0.000000">
+                <color rgba="0.501961 0.501961 0 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_1">
+        <inertial>
+            <mass value="8.76886e-08" />
+            <origin xyz="0.00722155 -7.08165e-18 6.37987e-18" rpy="0 -0 0" />
+            <inertia ixx="9.28735e-14" ixy="0" ixz="0" iyy="2.17761e-12" iyz="0" izz="2.18104e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/slotted_countersunk_flat_head_screw_iso_ISO_2009___M2_5_x_16___16N_MTi_6x0R_simple_2__MTi_6x0R_simpl.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.501961_0.501961_0.000000_0.000000_0.000000">
+                <color rgba="0.501961 0.501961 0 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_2">
+        <inertial>
+            <mass value="8.76886e-08" />
+            <origin xyz="0.00722155 -7.08165e-18 6.37987e-18" rpy="0 -0 0" />
+            <inertia ixx="9.28735e-14" ixy="0" ixz="0" iyy="2.17761e-12" iyz="0" izz="2.18104e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/slotted_countersunk_flat_head_screw_iso_ISO_2009___M2_5_x_16___16N_MTi_6x0R_simple_2__MTi_6x0R_simpl.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.501961_0.501961_0.000000_0.000000_0.000000">
+                <color rgba="0.501961 0.501961 0 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_3">
+        <inertial>
+            <mass value="8.76886e-08" />
+            <origin xyz="0.00722155 -7.08165e-18 6.37987e-18" rpy="0 -0 0" />
+            <inertia ixx="9.28735e-14" ixy="0" ixz="0" iyy="2.17761e-12" iyz="0" izz="2.18104e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/slotted_countersunk_flat_head_screw_iso_ISO_2009___M2_5_x_16___16N_MTi_6x0R_simple_2__MTi_6x0R_simpl.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.501961_0.501961_0.000000_0.000000_0.000000">
+                <color rgba="0.501961 0.501961 0 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="gps">
+        <inertial>
+            <mass value="2.81898e-07" />
+            <origin xyz="-1.66175e-06 -0.00505381 -1.42671e-05" rpy="0 -0 0" />
+            <inertia ixx="3.19649e-12" ixy="0" ixz="1.59356e-15" iyy="3.30193e-12" iyz="-1.33057e-14" izz="3.19649e-12" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/SMA_to_MCX_Adapter_shell_Aliner_20180924.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.768627_0.886275_0.952941_0.000000_0.000000">
+                <color rgba="0.768627 0.886275 0.952941 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="snapclip">
+        <inertial>
+            <mass value="1.31036e-05" />
+            <origin xyz="0.0480004 0.08825 0.0232412" rpy="0 -0 0" />
+            <inertia ixx="1.02607e-08" ixy="0" ixz="2.62965e-13" iyy="4.3199e-08" iyz="0" izz="3.34352e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/SnapClip.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="snapclip_1">
+        <inertial>
+            <mass value="1.31036e-05" />
+            <origin xyz="0.0480004 -0.00475 0.0232412" rpy="0 -0 0" />
+            <inertia ixx="1.02607e-08" ixy="0" ixz="2.62965e-13" iyy="4.3199e-08" iyz="0" izz="3.34352e-08" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/SnapClip_1.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.980392_0.713725_0.003922_0.000000_0.000000">
+                <color rgba="0.980392 0.713726 0.00392157 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="switch">
+        <inertial>
+            <mass value="0.00133469" />
+            <origin xyz="0.0650127 -8.02634e-18 -0.012" rpy="0 -0 0" />
+            <inertia ixx="3.39724e-06" ixy="0" ixz="0" iyy="2.32058e-06" iyz="0" izz="4.83479e-06" />
+        </inertial>
+        <visual>
+            <origin xyz="0.065 -5.48816e-18 -0.0435" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/SWITCH.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.615686_0.811765_0.929412_0.000000_0.000000">
+                <color rgba="0.615686 0.811765 0.929412 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="te1021">
+        <inertial>
+            <mass value="0.000195606" />
+            <origin xyz="0.046 1.73472e-18 0.0155" rpy="0 -0 0" />
+            <inertia ixx="9.16456e-08" ixy="0" ixz="0" iyy="1.49529e-07" iyz="0" izz="2.09845e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.128436 0.00906828 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/TE1021.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.647059_0.647059_0.647059_0.000000_0.000000">
+                <color rgba="0.647059 0.647059 0.647059 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="technica">
+        <inertial>
+            <mass value="0.0002025" />
+            <origin xyz="0 -5.01945e-19 0.015" rpy="0 -0 0" />
+            <inertia ixx="1.10109e-07" ixy="0" ixz="0" iyy="1.51875e-07" iyz="0" izz="2.31609e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Technica.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.141176_0.694118_0.650980_0.000000_0.000000">
+                <color rgba="0.141176 0.694118 0.65098 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="imu">
+        <inertial>
+            <mass value="1.1973e-05" />
+            <origin xyz="0.00056724 0.0180717 0.000627391" rpy="0 -0 0" />
+            <inertia ixx="2.85741e-09" ixy="1.71645e-11" ixz="-8.16136e-11" iyy="4.86869e-09" iyz="2.10345e-10" izz="2.66354e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="1.57 0 -1.57" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/Top_Housing_MTi_630R_Casted_3_MTi_630R_MTi_6x0R_simple_2__MTi_6x0R_simple.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="0.113725_0.113725_0.105882_0.000000_0.000000">
+                <color rgba="0.113725 0.113725 0.105882 1" />
+            </material>
+        </visual>
+    </link>
+    <link name="黑色喷漆顶盖">
+        <inertial>
+            <mass value="7.15401e-06" />
+            <origin xyz="1.07541e-14 -0.00123677 4.95823e-07" rpy="0 -0 0" />
+            <inertia ixx="3.91511e-09" ixy="0" ixz="0" iyy="7.79217e-09" iyz="8.17733e-15" izz="3.91511e-09" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package://bunker_description/meshes/sensors/______.gltf" scale="1 1 1" />
+            </geometry>
+            <material name="1.000000_1.000000_1.000000_0.000000_0.000000">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+    </link>
+    <joint name="fastened_1" type="fixed">
+        <origin xyz="-0.0810952 0.252 0.111" rpy="0 -0 0" />
+        <axis xyz="0 0 -1" />
+        <parent link="part_6" />
+        <child link="part_4" />
+    </joint>
+    <joint name="fastened_10" type="fixed">
+        <origin xyz="0.03055 0.189109 0.172382" rpy="0 0 -1.5708" />
+        <axis xyz="0 0 -1" />
+        <parent link="part_10" />
+        <child link="part_1_1" />
+    </joint>
+    <joint name="fastened_11" type="fixed">
+        <origin xyz="0 0.2157 0.172382" rpy="1.5708 5.57196e-17 -6.16298e-33" />
+        <axis xyz="5.57196e-17 -1 0" />
+        <parent link="part_10" />
+        <child link="customized_model_for_l1l2_helix_20190529_1" />
+    </joint>
+    <joint name="fastened_12" type="fixed">
+        <origin xyz="0.0157054 0.0177 -0.050024" rpy="-1.5708 5.55112e-17 -1.5708" />
+        <axis xyz="0 0 -1" />
+        <parent link="part_1_3" />
+        <child link="502_mfm0572" />
+    </joint>
+    <joint name="fastened_13" type="fixed">
+        <origin xyz="0.0248321 0.0704518 0.0173252" rpy="-1.5708 0 0" />
+        <axis xyz="0 0 -1" />
+        <parent link="part_11" />
+        <child link="606_00014_02_5" />
+    </joint>
+    <joint name="fastened_1_1" type="fixed">
+        <origin xyz="0.0256849 -0.0748003 -0.17" rpy="0 0 -1.5708" />
+        <axis xyz="0 0 -1" />
+        <parent link="part_1_3" />
+        <child link="part_4_1" />
+    </joint>
+    <joint name="fastened_2" type="fixed">
+        <origin xyz="-0.0342946 -0.0015 0.0198" rpy="1.5708 -2.18953e-46 -3.14159" />
+        <axis xyz="0 0 -1" />
+        <parent link="210000722" />
+        <child link="part_1_3" />
+    </joint>
+    # Aeva Atlas
+    <joint name="fastened_3" type="fixed">
+        <origin xyz="-0.066512 0.4015 0.026" rpy="1.5708 4.44089e-16 3.14159" />
+        <axis xyz="0 -1 0" />
+        <parent link="part_5" />
+        <child link="aeva/vehicle" />
+    </joint>
+
+    <link name="aeva/ATLAS/sensor" />
+
+    <joint name="atlas_sensor_join" type="fixed">
+        <origin xyz="-0.066512 0.4015 0.026" rpy="1.5708 -1.57 3.14159" />
+        <axis xyz="0 -1 0" />
+        <parent link="aeva/vehicle" />
+        <child link="aeva/ATLAS/sensor" />
+    </joint>
+
+    <link name="aeva/ATLAS/camera" />
+    
+    <joint name="atlas_camera_join" type="fixed">
+        <origin xyz="-0.066512 0.4015 0.026" rpy="1.5708 4.44089e-16 3.14159" />
+        <axis xyz="0 -1 0" />
+        <parent link="aeva/ATLAS/sensor" />
+        <child link="aeva/ATLAS/camera" />
+    </joint>
+
+    <link name="aeva/ATLAS/imu" />
+    
+    <joint name="atlas_imu_join" type="fixed">
+        <origin xyz="-0.066512 0.4015 0.026" rpy="1.5708 4.44089e-16 3.14159" />
+        <axis xyz="0 -1 0" />
+        <parent link="aeva/ATLAS/sensor" />
+        <child link="aeva/ATLAS/imu" />
+    </joint>
+
+    <joint name="fastened_4" type="fixed">
+        <origin xyz="-0.075 0.027 0.051" rpy="-3.14159 -8.75812e-47 -2.73691e-48" />
+        <axis xyz="0 0 1" />
+        <parent link="part_12" />
+        <child link="part_1" />
+    </joint>
+    <joint name="fastened_6" type="fixed">
+        <origin xyz="-0.0694654 0.2385 0.021" rpy="0 -0 0" />
+        <axis xyz="0 0 -1" />
+        <parent link="part_6" />
+        <child link="part_11_1" />
+    </joint>
+    <joint name="fastened_7" type="fixed">
+        <origin xyz="-0.0610045 0.222959 0.172382" rpy="0 0 -1.5708" />
+        <axis xyz="0 0 -1" />
+        <parent link="part_10" />
+        <child link="te1021" />
+    </joint>
+    <joint name="fastened_8" type="fixed">
+        <origin xyz="-5.55112e-17 -1.38778e-17 -0.02525" rpy="0 -1.5708 4.71239" />
+        <axis xyz="0 0 -1" />
+        <parent link="bottom_housing_casted_3_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="part_11" />
+    </joint>
+    <joint name="fastened_9" type="fixed">
+        <origin xyz="0 0.117 0.1595" rpy="2.43087e-63 -2.43087e-63 -1.5708" />
+        <axis xyz="-1 8.51398e-17 0" />
+        <parent link="part_15" />
+        <child link="switch" />
+    </joint>
+    <joint name="group_1_fastened_joint" type="fixed">
+        <origin xyz="0.0375 0.0375 0.033" rpy="1.57 0.0 3.14" />
+        <axis xyz="0 0 1" />
+        <parent link="502_mfm0572" />
+        <child link="radar_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_1" type="fixed">
+        <origin xyz="-0.0344455 -0.0438212 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_1_1" />
+        <child link="part_2" />
+    </joint>
+    <joint name="group_1_fastened_joint_10" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="fan_cover_concord_collapsible" />
+        <child link="600_13737_0000_a01" />
+    </joint>
+    <joint name="group_1_fastened_joint_11" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="snapclip" />
+        <child link="snapclip_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_12" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="foot_concord_button_rubber" />
+        <child link="foot_concord" />
+    </joint>
+    <joint name="group_1_fastened_joint_13" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="heatsink_concord" />
+        <child link="foot_rubber_concord_2" />
+    </joint>
+    <joint name="group_1_fastened_joint_14" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="foot_rubber_concord_2" />
+        <child link="foot_rubber_concord" />
+    </joint>
+    <joint name="group_1_fastened_joint_15" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="foot_rubber_concord" />
+        <child link="foot_concord_button_rubber" />
+    </joint>
+    <joint name="group_1_fastened_joint_16" type="fixed">
+        <origin xyz="0.0215 -0.08825 0.028" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_11_1" />
+        <child link="snapclip" />
+    </joint>
+    <joint name="group_1_fastened_joint_17" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="snapclip_1" />
+        <child link="pcie_cover_concord" />
+    </joint>
+    <joint name="group_1_fastened_joint_18" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="foot_concord" />
+        <child link="fan_cover_concord_collapsible" />
+    </joint>
+    <joint name="group_1_fastened_joint_19" type="fixed">
+        <origin xyz="5.55112e-17 0 0" rpy="-3.14159 3.83407e-62 -3.14159" />
+        <axis xyz="0 0 1" />
+        <parent link="o_ring_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="_mti_6x0r_simple_2__mti_6x0r_simple_3" />
+    </joint>
+    <joint name="group_1_fastened_joint_2" type="fixed">
+        <origin xyz="5.55112e-17 0 -0.01356" rpy="2.85458e-64 -3.61396e-77 -5.15818e-141" />
+        <axis xyz="0 0 1" />
+        <parent link="20220058_耐落十字盘头螺钉_m2_6" />
+        <child link="20220058_耐落十字盘头螺钉_m2_6_2" />
+    </joint>
+    <joint name="group_1_fastened_joint_20" type="fixed">
+        <origin xyz="-0.0159652 0.0168 0.0036033" rpy="2.18953e-47 2.18953e-47 -1.5708" />
+        <axis xyz="0 0 1" />
+        <parent link="membrane_ve90510_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="copy__2__of__mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_21" type="fixed">
+        <origin xyz="0.01395 -0.0221651 -0.0421591" rpy="3.12144 -0.0485617 1.96438" />
+        <axis xyz="0 0 1" />
+        <parent link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_3" />
+        <child link="decorative_nut_odu_amc_size0_mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_22" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="-1.57 -1.57 0.0" />
+        <axis xyz="0 0 1" />
+        <parent link="_mti_6x0r_simple_2__mti_6x0r_simple_5" />
+        <child link="imu" />
+    </joint>
+    <joint name="group_1_fastened_joint_23" type="fixed">
+        <origin xyz="-1.38778e-17 0.0354729 -0.00138627" rpy="0.017949 1.02536e-17 6.13087e-18" />
+        <axis xyz="0 0 1" />
+        <parent link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_24" type="fixed">
+        <origin xyz="0.00659958 0.0146279 -0.0158836" rpy="3.14159 -7.11589e-15 3.14083" />
+        <axis xyz="0 0 1" />
+        <parent link="copy__2__of__mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="gc0wxm_p12um00_000l_mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_25" type="fixed">
+        <origin xyz="2.77556e-17 0.0354892 -0.000875441" rpy="-0.0772378 6.79227e-18 1.01178e-18" />
+        <axis xyz="0 0 1" />
+        <parent link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_2" />
+        <child link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_3" />
+    </joint>
+    <joint name="group_1_fastened_joint_26" type="fixed">
+        <origin xyz="0.0116508 -0.0108659 -0.021436" rpy="1.48643e-17 -2.014e-16 0.393095" />
+        <axis xyz="0 0 1" />
+        <parent link="decorative_nut_odu_amc_size0_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="o_ring_mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_27" type="fixed">
+        <origin xyz="0.00658844 -0.0146329 -0.0158836" rpy="3.14159 7.11569e-15 3.14083" />
+        <axis xyz="0 0 1" />
+        <parent link="gc0wxm_p12um00_000l_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="copy__3__of__mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_28" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="2.18953e-47 -3.83407e-62 -4.19741e-109" />
+        <axis xyz="0 0 1" />
+        <parent link="_mti_6x0r_simple_2__mti_6x0r_simple_3" />
+        <child link="_mti_6x0r_simple_2__mti_6x0r_simple_2" />
+    </joint>
+    <joint name="group_1_fastened_joint_29" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="2.18953e-47 -3.83407e-62 -4.19741e-109" />
+        <axis xyz="0 0 1" />
+        <parent link="_mti_6x0r_simple_2__mti_6x0r_simple_2" />
+        <child link="_mti_6x0r_simple_2__mti_6x0r_simple_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_3" type="fixed">
+        <origin xyz="0 0 0.01356" rpy="2.85458e-64 -3.61396e-77 -5.15818e-141" />
+        <axis xyz="0 0 1" />
+        <parent link="20220058_耐落十字盘头螺钉_m2_6_1" />
+        <child link="20220058_耐落十字盘头螺钉_m2_6_3" />
+    </joint>
+    <joint name="group_1_fastened_joint_30" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="3.14159 -7.41768e-15 3.14159" />
+        <axis xyz="0 0 1" />
+        <parent link="copy__4__of__mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="bottom_housing_casted_3_mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_31" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="2.18953e-47 -3.83407e-62 -4.19741e-109" />
+        <axis xyz="0 0 1" />
+        <parent link="_mti_6x0r_simple_2__mti_6x0r_simple_1" />
+        <child link="_mti_6x0r_simple_2__mti_6x0r_simple_4" />
+    </joint>
+    <joint name="group_1_fastened_joint_32" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="2.18953e-47 -3.83407e-62 -4.19741e-109" />
+        <axis xyz="0 0 1" />
+        <parent link="_mti_6x0r_simple_2__mti_6x0r_simple_4" />
+        <child link="_mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_33" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="2.18953e-47 -3.83407e-62 -4.19741e-109" />
+        <axis xyz="0 0 1" />
+        <parent link="_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="_mti_6x0r_simple_2__mti_6x0r_simple_5" />
+    </joint>
+    <joint name="group_1_fastened_joint_34" type="fixed">
+        <origin xyz="-9.71445e-17 0.00153075 0.0391701" rpy="-0.014397 4.86238e-17 2.11379e-18" />
+        <axis xyz="0 0 1" />
+        <parent link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_2" />
+    </joint>
+    <joint name="group_1_fastened_joint_35" type="fixed">
+        <origin xyz="-5.55112e-17 0 0" rpy="2.18953e-47 -3.83407e-62 -4.19741e-109" />
+        <axis xyz="0 0 1" />
+        <parent link="copy__3__of__mti_6x0r_simple_2__mti_6x0r_simple" />
+        <child link="copy__4__of__mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_36" type="fixed">
+        <origin xyz="0.0154152 -0.0335767 0.0180391" rpy="-0.0570088 6.97723e-17 -4.5412e-18" />
+        <axis xyz="0 0 1" />
+        <parent link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple_1" />
+        <child link="membrane_ve90510_mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="group_1_fastened_joint_37" type="fixed">
+        <origin xyz="0.026878 0.118284 0.005" rpy="0 -0 1.5708" />
+        <axis xyz="0 0 1" />
+        <parent link="part_4" />
+        <child link="base_t1" />
+    </joint>
+    <joint name="group_1_fastened_joint_38" type="fixed">
+        <origin xyz="-0.178284 -0.0917172 -1.38778e-17" rpy="0 -0 1.85037e-16" />
+        <axis xyz="0 0 1" />
+        <parent link="base_t1" />
+        <child link="technica" />
+    </joint>
+    <joint name="group_1_fastened_joint_39" type="fixed">
+        <origin xyz="-0.0550454 -0.361959 -0.167382" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_4_1" />
+        <child link="part_3" />
+    </joint>
+    <joint name="group_1_fastened_joint_4" type="fixed">
+        <origin xyz="-0.0184 0 -0.01356" rpy="2.85458e-64 -3.61396e-77 -5.15818e-141" />
+        <axis xyz="0 0 1" />
+        <parent link="20220058_耐落十字盘头螺钉_m2_6" />
+        <child link="20220058_耐落十字盘头螺钉_m2_6_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_40" type="fixed">
+        <origin xyz="0 0 3.46945e-18" rpy="0 -4.93038e-31 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_10" />
+        <child link="part_12" />
+    </joint>
+    <joint name="group_1_fastened_joint_41" type="fixed">
+        <origin xyz="-0.0550454 -0.361959 -0.167382" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_4_1" />
+        <child link="part_5" />
+    </joint>
+    <joint name="group_1_fastened_joint_42" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_3" />
+        <child link="part_2_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_43" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_2_1" />
+        <child link="part_1_2" />
+    </joint>
+    <joint name="group_1_fastened_joint_44" type="fixed">
+        <origin xyz="0 0 -3.81639e-17" rpy="0 -3.19453e-16 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_12" />
+        <child link="part_13" />
+    </joint>
+    <joint name="group_1_fastened_joint_45" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_6" />
+        <child link="part_7" />
+    </joint>
+    <joint name="group_1_fastened_joint_46" type="fixed">
+        <origin xyz="0 0 3.46945e-17" rpy="0 3.19453e-16 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_13" />
+        <child link="part_15" />
+    </joint>
+    <joint name="group_1_fastened_joint_47" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_5" />
+        <child link="part_6" />
+    </joint>
+    <joint name="group_1_fastened_joint_48" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="part_7" />
+        <child link="part_10" />
+    </joint>
+    <joint name="group_1_fastened_joint_49" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="m2_5_insert_for_helix_family" />
+        <child link="gps" />
+    </joint>
+    <joint name="group_1_fastened_joint_5" type="fixed">
+        <origin xyz="-0.0051 0.0703 -0.0427475" rpy="0 -1.5708 -2.58127e-15" />
+        <axis xyz="0 0 1" />
+        <parent link="rosenberger___mps113_400xx_z_210201_lv_info" />
+        <child link="黑色喷漆顶盖" />
+    </joint>
+    <joint name="group_1_fastened_joint_50" type="fixed">
+        <origin xyz="0 0.00619352 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="customized_model_for_l1l2_helix_20190529_1" />
+        <child link="m2_5_insert_for_helix_family" />
+    </joint>
+    <joint name="group_1_fastened_joint_51" type="fixed">
+        <origin xyz="0 0.00619352 2.22045e-16" rpy="-3.33067e-16 0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="customized_model_for_l1l2_helix_20190529_1" />
+        <child link="cs2_62x_o_ring_20190509" />
+    </joint>
+    <joint name="group_1_fastened_joint_53" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="611_00020_16_1" />
+        <child link="612_00002_6" />
+    </joint>
+    <joint name="group_1_fastened_joint_54" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="612_00002_6" />
+        <child link="612_00003_6" />
+    </joint>
+    <joint name="group_1_fastened_joint_55" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="611_00016_20" />
+        <child link="611_00018_9" />
+    </joint>
+    <joint name="group_1_fastened_joint_56" type="fixed">
+        <origin xyz="-0.007 0.01175 0.013" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="606_00014_02_5" />
+        <child link="611_00016_20" />
+    </joint>
+    <joint name="group_1_fastened_joint_57" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="602_00007_1_3" />
+        <child link="602_00007_1_2" />
+    </joint>
+    <joint name="group_1_fastened_joint_58" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="602_00007_1_1" />
+        <child link="602_00007_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_59" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="612_00003_6" />
+        <child link="cable_spacer" />
+    </joint>
+    <joint name="group_1_fastened_joint_6" type="fixed">
+        <origin xyz="0 -0.0824 0" rpy="0 1.85477e-122 0" />
+        <axis xyz="0 0 1" />
+        <parent link="黑色喷漆顶盖" />
+        <child link="210000722" />
+    </joint>
+    <joint name="group_1_fastened_joint_60" type="fixed">
+        <origin xyz="-0.007 0.01175 0.013" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="606_00014_02_5" />
+        <child link="606_00013_02_6" />
+    </joint>
+    <joint name="group_1_fastened_joint_61" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="602_00007_1_2" />
+        <child link="602_00007_1_1" />
+    </joint>
+    
+    <!--OAK-D-W Camera-->
+    <joint name="group_1_fastened_joint_52" type="fixed">
+        <origin xyz="0.008 0.13 0.0" rpy="1.57 -1.57 0" />
+        <axis xyz="0 0 1" />
+        <parent link="cable_spacer" />
+        <child link="oak_parent_frame" />
+    </joint>
+    <joint name="group_1_fastened_joint_62" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="oak_parent_frame" />
+        <child link="oak" />
+    </joint>
+    <link name="oak_model_origin" />
+    <joint name="oak_model_origin_joint" type="fixed">
+        <parent link="oak" />
+        <child link="oak_model_origin" />
+        <origin xyz="0 0 0" rpy="1.5708 0 1.5708" />
+    </joint>
+    <link name="oak_imu_frame" />
+    <joint name="oak_imu_joint" type="fixed">
+        <parent link="oak" />
+        <child link="oak_imu_frame" />
+        <origin xyz="0.0 -0.015 -0.013662"
+            rpy="0.0 1.57 3.14" />
+    </joint>
+
+    <!-- RGB Camera -->
+    <link name="oak_rgb_camera_frame" />
+
+    <joint name="oak_rgb_camera_joint" type="fixed">
+        <parent link="oak" />
+        <child link="oak_rgb_camera_frame" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="oak_rgb_camera_optical_frame" />
+
+    <joint name="oak_rgb_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.57 0.0 -1.57" />
+        <parent link="oak_rgb_camera_frame" />
+        <child link="oak_rgb_camera_optical_frame" />
+    </joint>
+    <!-- Left Camera -->
+    <link name="oak_left_camera_frame" />
+
+    <joint name="oak_left_camera_joint" type="fixed">
+        <parent link="oak" />
+        <child link="oak_left_camera_frame" />
+        <origin xyz="0 0.0375 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="oak_left_camera_optical_frame" />
+
+    <joint name="oak_left_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.57 0.0 -1.57" />
+        <parent link="oak_left_camera_frame" />
+        <child link="oak_left_camera_optical_frame" />
+    </joint>
+
+    <!-- right Camera -->
+    <link name="oak_right_camera_frame" />
+
+    <joint name="oak_right_camera_joint" type="fixed">
+        <parent link="oak" />
+        <child link="oak_right_camera_frame" />
+        <origin xyz="0 -0.0375 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="oak_right_camera_optical_frame" />
+
+    <joint name="oak_right_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.57 0.0 -1.57" />
+        <parent link="oak_right_camera_frame" />
+        <child link="oak_right_camera_optical_frame" />
+    </joint>
+
+    <joint name="group_1_fastened_joint_63" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="606_00013_02_6" />
+        <child link="602_00007_1_3" />
+    </joint>
+    <joint name="group_1_fastened_joint_64" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="611_00018_9" />
+        <child link="611_00020_16__1_" />
+    </joint>
+    <joint name="group_1_fastened_joint_65" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="611_00020_16__1_" />
+        <child link="611_00020_16_1" />
+    </joint>
+    <joint name="group_1_fastened_joint_7" type="fixed">
+        <origin xyz="-1.57427e-08 0.0273 1.3773e-09" rpy="-1.57 4.71 0.0" /> <!--1.76983e-33 0.000181639 -1.23258e-32-->
+        <axis xyz="0 0 1" />
+        <parent link="210000722" />
+        <child link="hesai_lidar" />
+    </joint>
+    <joint name="group_1_fastened_joint_8" type="fixed">
+        <origin xyz="0.0092 -0.0025 -0.01161" rpy="0 1.5708 1.5708" />
+        <axis xyz="0 0 1" />
+        <parent link="20220058_耐落十字盘头螺钉_m2_6_3" />
+        <child link="rosenberger___mps113_400xx_z_210201_lv_info" />
+    </joint>
+    <joint name="group_1_fastened_joint_9" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="pcie_cover_concord" />
+        <child link="heatsink_concord" />
+    </joint>
+    <joint name="hanging_node_to_sensor_link_joint" type="fixed">
+        <origin xyz="0.225517 -0.292469 0.324581" rpy="0 1.5708 3.14159" />
+        <axis xyz="0 0 1" />
+        <parent link="sensor_link" />
+        <child link="20220058_耐落十字盘头螺钉_m2_6" />
+    </joint>
+    <joint name="hanging_node_to_sensor_link_joint_1" type="fixed">
+        <origin xyz="0.214599 -0.282403 0.0993495" rpy="0 -1.5708 0.0390598" />
+        <axis xyz="0 0 1" />
+        <parent link="sensor_link" />
+        <child link="slotted_countersunk_flat_head_screw_iso_iso_2009___m2_5_x_16___16n_mti_6x0r_simple_2__mti_6x0r_simple" />
+    </joint>
+    <joint name="base_link_to_sensor_link_joint" type="fixed">
+        <!-- <origin xyz="0.395 0.235 0.27" rpy="0 0 -1.57" /> -->
+        <origin xyz="0.36 0.235 0.017" rpy="0 0 -1.57" />
+        <axis xyz="0 0 1" />
+        <parent link="base_link" />
+        <child link="sensor_link" />
+    </joint>
+</robot>
+

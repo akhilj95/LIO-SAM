@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FRUC Bunker Mini platform (AgileX Bunker Mini + Hesai QT128 on a mast).
+
+     Vendored from errorcodecritical/bunker_dataset_recorder
+     ros2_ws/src/bunker_description/urdf/bunker.urdf.xacro.
+
+     Frames LIO-SAM cares about, composed through the SolidWorks chains:
+       base_link -> hesai_lidar   xyz [ 0.1130, 0.0028, 0.3660]  ~Rz(+90)
+       base_link -> imu           xyz [ 0.0955, 0.0399, 0.1158]  ~Rz(+90)
+       base_link -> gps           xyz [ 0.0267, 0.0028, 0.1784]
+     "imu" is the Xsens MTi, the source of /imu/data - the xsens driver launch
+     defaults frame_id to exactly this link.
+
+     Deliberately no "lidar_link": mapOptimization broadcasts odom -> lidar_link
+     itself (mapOptmization.cpp:1651) and TransformFusion broadcasts
+     odom -> base_link (imuPreintegration.cpp:149). Neither name appears in the
+     sensors file, and base_link is its only root, so nothing here gets a
+     second parent. -->
+<robot
+  name="bunker_mini" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="bunkermini_sensors.urdf.xacro" />
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00266149933171387 -6.51753880652126E-06 -0.0988540390646707"
+        rpy="0 0 0" />
+      <mass
+        value="40.9538420525263" />
+      <inertia
+        ixx="0.428867306980697"
+        ixy="-5.34500607982249E-06"
+        ixz="-0.0281290917935353"
+        iyy="1.22745608718324"
+        iyz="-7.8205947442509E-07"
+        izz="1.37929953930289" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bunker_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bunker_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>
