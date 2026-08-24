@@ -1,118 +1,155 @@
-# LIO-SAM — ROS 2 Jazzy, FRUC forestry platforms
+# LIO-SAM ROS 2 Jazzy
 
-A ROS 2 Jazzy port of [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM) carrying the
-platform configurations from [Forestry-Robotics-UC/fruc_lio_sam](https://github.com/Forestry-Robotics-UC/fruc_lio_sam).
+A **ROS 2 Jazzy** port of [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), carrying the
+forestry platform configurations from
+[Forestry-Robotics-UC/fruc_lio_sam](https://github.com/Forestry-Robotics-UC/fruc_lio_sam).
 
+Started from upstream's stale `ros2` branch, with the fixes that only ever landed
+on `master` brought forward. See `updates.md` for what changed and why.
 
+---
 
-## Menu
-- [**Dependencies and build**](#dependencies-and-build)
-- [**Running**](#running)
-- [**Frames and extrinsics**](#frames-and-extrinsics)
-- [**Platforms**](#platforms)
-- [**Offline bag conversion**](#offline-bag-conversion)
-- [**Known gaps**](#known-gaps)
-- [**Measured throughput**](#measured-throughput)
-- [**Upstream documentation**](#upstream-documentation)
-- [**Paper**](#paper)
+## 1. Dependencies
 
-
-## Dependencies and build
-
-Jazzy on Ubuntu 24.04. Unlike the upstream README, **no GTSAM PPA is needed** —
-`ros-jazzy-gtsam` is a released deb, and the `borglab/gtsam-release-4.1` PPA the
-upstream instructions use has no Noble build.
+Tested with **ROS 2 Jazzy on Ubuntu 24.04**.
 
 ```bash
 sudo apt install ros-jazzy-perception-pcl ros-jazzy-pcl-msgs \
                  ros-jazzy-vision-opencv ros-jazzy-xacro \
-                 ros-jazzy-gtsam ros-jazzy-robot-localization
+                 ros-jazzy-gtsam ros-jazzy-robot-localization \
+                 ros-jazzy-rviz2 ros-jazzy-robot-state-publisher
 ```
+Unlike the upstream README, **no GTSAM PPA is needed** — `ros-jazzy-gtsam` is a
+released deb and ships `gtsam_unstable` too.
 
-## Running
+The Go1 bag converters in `scripts/go1/` need Python packages as well:
+```bash
+pip install rosbags tqdm numpy
+```
+---
 
-The parameters file is the only thing to choose:
+## 2. Build
+
+Standalone, in any ROS 2 workspace:
+
+```bash
+cd ~/ros2_ws
+colcon build --packages-select lio_sam --symlink-install
+source install/setup.bash
+```
+---
+
+## 3. Choose a configuration
+
+The parameters file is the only thing to pick. It also selects the URDF and the
+navsat topics, so one file sets up the whole stack.
+
+| params file | robot | lidar |
+|---|---|---|
+| `params.yaml` | upstream sample data | Velodyne VLP-16 |
+| `params_curtmini.yaml` | Curt Mini | Ouster OS-1-128 |
+| `params_curtmini_flipped.yaml` | Curt Mini, 180° flipped cloud | Ouster OS-1-128 |
+| `params_apparatus.yaml` | "apparatus" rig | Ouster OS-128 |
+| `params_bunkermini.yaml` | Bunker Mini | Hesai QT128 |
+| `params_rslidar.yaml` | Unitree Go1 | RoboSense-32 |
+
+**Two Curt Mini files?** Some bags were decoded with a 180° yaw applied to the
+points and some were not, so it is a per-bag choice. Play the bag without TF,
+view `/ouster/points` against the URDF, and use whichever file makes the cloud
+line up with the robot.
+
+---
+
+## 4. Running
 
 ```bash
 ros2 launch lio_sam run.launch.py params_file:=params_curtmini.yaml
 ```
 
-| argument | default | |
-|---|---|---|
-| `params_file` | `params.yaml` | a name in `config/`, or an absolute path |
-| `use_sim_time` | `true` | follows `/clock`; set `false` for live sensors |
-| `log_level` | `info` | scoped to `lio_sam_mapOptimization` only — `debug` surfaces the GPS-factor gate diagnostics without rclcpp internals |
-
-Replay bag file:
+Then play a bag:
 
 ```bash
 ros2 bag play <bag> --clock --rate 0.3 --exclude /tf /tf_static
 ```
 
 Excluding the bag's own `/tf` and `/tf_static` matters on recordings that carry
-conflicting static transforms; `robot_state_publisher` should be the only source.
+conflicting static transforms — `robot_state_publisher` should be the only
+source. Start LIO-SAM before playing the bag.
 
-## Frames and extrinsics
+Launch arguments:
 
-Two things are easy to conflate, and the distinction is the whole reason
-`params_curtmini.yaml` looks the way it does:
+| argument | default | |
+|---|---|---|
+| `params_file` | `params.yaml` | a name in `config/`, or an absolute path |
+| `use_sim_time` | `true` | follows `/clock`; set `false` for live sensors |
+| `log_level` | `info` | `lio_sam_mapOptimization` only — `debug` shows the GPS-factor diagnostics |
+| `publish_robot_description` | `true` | set `false` if another node already publishes an equivalent robot description |
 
-- **`lidarFrame` is a label.** It stamps outgoing messages and drives
-  TransformFusion's `lidar -> baselink` lookup. It never transforms the incoming
-  cloud.
-- **`extrinsicRot` / `extrinsicTrans` are pinned to the data**, not to the label.
+If the recorded topics differ from the config, either edit `pointCloudTopic` /
+`imuTopic` in the params file, or remap at playback:
 
-## Platforms
+```bash
+ros2 bag play <bag> --clock --remap /imu/data:=/imu/data/corrected
+```
 
-| params file | robot | lidar | URDF |
-|---|---|---|---|
-| `params.yaml` | upstream sample data | Velodyne VLP-16 | `robot.urdf.xacro` |
-| `params_curtmini.yaml` | Curt Mini | Ouster OS-1-128 | `fruc_curtmini.urdf.xacro` |
-| `params_ouster.yaml` | "apparatus" rig | Ouster OS-128 | `fruc_ouster.urdf.xacro` |
-| `params_hesai.yaml` | Bunker Mini | Hesai-128 | `fruc_hesai.urdf.xacro` |
-| `params_rslidar.yaml` | Unitree Go1 | RoboSense-32 | `fruc_rslidar.urdf.xacro` |
+---
 
-## Offline bag conversion
+## 5. Saving the map
 
-`scripts/go1/` ports FRUC's two offline converters ([`9f83b1e`](../../commit/9f83b1e)).
-They use the [`rosbags`](https://ternaris.gitlab.io/rosbags/) library, which
-reads ROS 1 bags and writes ROS 2 bags with no ROS 1 installation — so the
-pipeline stays in this workspace instead of needing a Noetic container.
+```bash
+ros2 service call /lio_sam/save_map lio_sam/srv/SaveMap \
+  "{resolution: 0.2, destination: /data/maps/}"
+```
+
+`resolution` is the voxel size in metres. The map is written as `.pcd`.
+
+---
+
+## 6. Unitree Go1 offline bag conversion
+
+The Go1 data is in ROS 1 bags. `scripts/go1/` ports FRUC's two converters using
+the [`rosbags`](https://ternaris.gitlab.io/rosbags/) library, so no ROS 1
+installation is needed:
 
 ```bash
 ./unitree_extract.py raw_bags/ -o extracted     # ROS 1 -> ROS 2, HighState -> sensor_msgs/Imu
 ./go1_preprocess.py  extracted  -o preprocessed # cloud filter + IMU resample to 100 Hz
 ```
 
-`bagio.py` holds the shared message rebuilding, structured-array cloud access and
-mcap writing.
+Then run `params_rslidar.yaml` against the result.
 
-## Known gaps
+---
 
-Documented rather than papered over:
+## 7. Sensor inputs
 
-- **`params_hesai.yaml` extrinsics are inconsistent with FRUC's own URDF.** Its
-  `extrinsicTrans` matches `oak_imu_frame -> hesai_lidar` — the OAK camera's IMU,
-  not the Xsens, and in the reversed direction — while the rotation matches
-  nothing in `sensor.urdf.xacro`. `fruc_hesai.urdf.xacro` still has placeholder
-  zeros. Untested; do not trust this config without re-deriving it.
-- **`bunkermini.urdf.xacro` is broken as shipped upstream** — it includes
-  `sensors.urdf.xacro`, but the file is named `sensor.urdf.xacro`.
+- LiDAR: `sensor_msgs/PointCloud2`, with `x y z intensity ring time` fields
+- IMU: `sensor_msgs/Imu`, 9-axis, 200 Hz or higher
+
+All three extrinsics are `T_lb` (lidar ← imu): the rotations map IMU-frame
+vectors into lidar axes, and `extrinsicTrans` is the IMU origin expressed in
+**lidar** axes. See also the **prepare IMU data** section of the
+[upstream README](https://github.com/TixiaoShan/LIO-SAM/blob/master/README.md),
+which still applies unchanged.
+
+---
+
+## 8. Notes
+
+- Platform URDFs and extrinsics are derived from each robot's own description
+  repo, not from the fruc_lio_sam copies, which disagree with them in places.
+- **Bunker Mini is untested against a bag.** Its frames and extrinsics are
+  verified, but `Horizon_SCAN`, `pointCloudTopic` and the presence of a `ring`
+  field are inherited from upstream and unconfirmed. See the header of
+  `params_bunkermini.yaml`.
 - **Velodyne, Livox and Microstrain remain untested here**, as on upstream's
   ROS 2 branch.
+- If the map is tilted or unstable, check the TF tree first, then the extrinsics.
 
-## Upstream documentation
-
-The following sections of the [upstream README](https://github.com/TixiaoShan/LIO-SAM/blob/master/README.md)
-apply unchanged and are not duplicated here: system architecture, **prepare
-lidar data**, **prepare IMU data**, sample datasets, and the service/topic
-reference. The IMU sections in particular are still required reading — the
-extrinsic conventions there are what everything above depends on.
-
+---
 
 ## Acknowledgement
 
-- LIO-SAM is based on LOAM (J. Zhang and S. Singh. LOAM: Lidar Odometry and Mapping in Real-time).
+- LIO-SAM is based on LOAM (J. Zhang and S. Singh, *LOAM: Lidar Odometry and Mapping in Real-time*).
 - The ROS 2 migration is TixiaoShan's `ros2` branch and its contributors.
 - Platform configurations and the Go1 offline pipeline originate with
-  [Forestry-Robotics-UC](https://github.com/Forestry-Robotics-UC/fruc_lio_sam).
+  [Forestry-Robotics-UC](https://github.com/Forestry-Robotics-UC/fruc_lio_sam), ISR-UC.
