@@ -32,6 +32,17 @@ def resolve(path, config_dir):
     return path if os.path.isabs(path) else os.path.join(config_dir, path)
 
 
+def as_bool(value, name):
+    """LaunchConfiguration.perform() yields a string; accept the usual spellings."""
+    lowered = value.strip().lower()
+    if lowered in ('true', '1', 'yes'):
+        return True
+    if lowered in ('false', '0', 'no'):
+        return False
+    raise RuntimeError(
+        "{} must be true or false, got '{}'".format(name, value))
+
+
 def launch_setup(context, *args, **kwargs):
     share_dir = get_package_share_directory('lio_sam')
     config_dir = os.path.join(share_dir, 'config')
@@ -49,15 +60,24 @@ def launch_setup(context, *args, **kwargs):
     with open(params_file) as fh:
         common = (yaml.safe_load(fh) or {}).get('/**', {}).get('ros__parameters', {})
 
-    xacro_path = resolve(common.get('urdfFile', DEFAULT_URDF), config_dir)
-    if not os.path.exists(xacro_path):
-        raise RuntimeError("urdfFile '{}' from {} does not exist: {}".format(
-            common.get('urdfFile'), os.path.basename(params_file), xacro_path))
+    publish_robot_description = as_bool(
+        LaunchConfiguration('publish_robot_description').perform(context),
+        'publish_robot_description')
+
+    # urdfFile is only consulted when we are the ones publishing it.
+    xacro_path = None
+    if publish_robot_description:
+        xacro_path = resolve(common.get('urdfFile', DEFAULT_URDF), config_dir)
+        if not os.path.exists(xacro_path):
+            raise RuntimeError("urdfFile '{}' from {} does not exist: {}".format(
+                common.get('urdfFile'), os.path.basename(params_file), xacro_path))
     navsat_imu_topic = common.get('navsatImuTopic', DEFAULT_NAVSAT_IMU)
     gps_fix_topic = common.get('gpsFixTopic', DEFAULT_GPS_FIX)
 
     print('lio_sam params : {}'.format(os.path.basename(params_file)))
-    print('  urdf         : {}'.format(os.path.basename(xacro_path)))
+    print('  urdf         : {}'.format(
+        os.path.basename(xacro_path) if publish_robot_description
+        else 'not published (publish_robot_description:=false)'))
     print('  navsat imu   : {}'.format(navsat_imu_topic))
     print('  navsat fix   : {}'.format(gps_fix_topic))
 
@@ -73,18 +93,15 @@ def launch_setup(context, *args, **kwargs):
                          ['lio_sam_mapOptimization:=',
                           LaunchConfiguration('log_level')]]
 
-    return [
-        # map -> odom.
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            arguments='0.0 0.0 0.0 0.0 0.0 0.0 map odom'.split(' '),
-            parameters=[params_file, {'use_sim_time': use_sim_time}],
-            output='screen'
-            ),
-        # Publishes the sensor mounts from the URDF. Since the
-        # lidarFrame != baselinkFrame, so this is what makes TransformFusion's
-        # lidar->baselink lookup resolvable.
+    # Publishes the sensor mounts from the URDF. Since lidarFrame !=
+    # baselinkFrame, this is what makes TransformFusion's lidar->baselink lookup
+    # (imuPreintegration.cpp:132) resolvable, and it also supplies the
+    # base_link -> gps transform navsat_transform_node needs.
+    #
+    # Skipped when publish_robot_description:=false, for the case where another
+    # node already publishes an equivalent description and a second publisher
+    # would collide on the same static transforms.
+    robot_state_publisher = [
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
@@ -96,6 +113,18 @@ def launch_setup(context, *args, **kwargs):
                 'use_sim_time': use_sim_time,
             }]
         ),
+    ] if publish_robot_description else []
+
+    return [
+        # map -> odom.
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments='0.0 0.0 0.0 0.0 0.0 0.0 map odom'.split(' '),
+            parameters=[params_file, {'use_sim_time': use_sim_time}],
+            output='screen'
+            ),
+    ] + robot_state_publisher + [
         # ---- Navsat: GPS -> odometry/gps, consumed by mapOptimization ----
         # ekf_gps publishes odometry/filtered (remapped to odometry/navsat),
         # which navsat consumes; navsat publishes odometry/gps, which feeds both
@@ -183,5 +212,14 @@ def generate_launch_description():
             'log_level',
             default_value='info',
             description='Logger level for lio_sam_mapOptimization (info|debug|warn).'),
+        # Set false only when another node already publishes an EQUIVALENT
+        # description. The URDF here is not interchangeable with the robot's own
+        # in general - see the README - and nothing validates the substitute.
+        DeclareLaunchArgument(
+            'publish_robot_description',
+            default_value='true',
+            description='Start robot_state_publisher with the config\'s '
+                        'urdfFile. Set false when another node already '
+                        'publishes an equivalent robot description.'),
         OpaqueFunction(function=launch_setup),
     ])
