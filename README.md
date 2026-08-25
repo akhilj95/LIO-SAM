@@ -70,12 +70,13 @@ ros2 launch lio_sam run.launch.py params_file:=params_curtmini.yaml
 Then play a bag:
 
 ```bash
-ros2 bag play <bag> --clock --rate 0.3 --exclude /tf /tf_static
+ros2 bag play <bag> --clock --exclude /tf /tf_static
 ```
 
 Excluding the bag's own `/tf` and `/tf_static` matters on recordings that carry
-conflicting static transforms — `robot_state_publisher` should be the only
-source. Start LIO-SAM before playing the bag.
+conflicting static transforms.
+
+Start LIO-SAM before playing the bag.
 
 Launch arguments:
 
