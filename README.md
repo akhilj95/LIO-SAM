@@ -22,13 +22,11 @@ sudo apt install ros-jazzy-perception-pcl ros-jazzy-pcl-msgs \
 Unlike the upstream README, **no GTSAM PPA is needed** — `ros-jazzy-gtsam` is a
 released deb and ships `gtsam_unstable` too.
 
-The Go1 bag converters in `scripts/go1/` need Python packages as well:
-```bash
-pip install rosbags tqdm numpy
-```
+The Go1 bag converters in `scripts/go1/` need Python packages (`rosbags tqdm numpy`).
 
 `scripts/urdf_extrinsics.py` (section 9) additionally needs `numpy` and
 `ros-jazzy-urdfdom-py`. Neither is required to build or run the nodes.
+
 ---
 
 ## 2. Build
