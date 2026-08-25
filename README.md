@@ -1,11 +1,28 @@
 # LIO-SAM ROS 2 Jazzy
 
-A **ROS 2 Jazzy** port of [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM), carrying the
-forestry platform configurations from
-[Forestry-Robotics-UC/fruc_lio_sam](https://github.com/Forestry-Robotics-UC/fruc_lio_sam).
+LiDAR–inertial odometry and mapping on **ROS 2 Jazzy**, configured for the FRUC
+forestry platforms — Curt Mini, Bunker Mini, the apparatus rig and the Unitree Go1.
 
-Started from upstream's stale `ros2` branch, with the fixes that only ever landed
-on `master` brought forward. See `updates.md` for what changed and why.
+A port of [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM) carrying the platform
+configurations from
+[Forestry-Robotics-UC/fruc_lio_sam](https://github.com/Forestry-Robotics-UC/fruc_lio_sam).
+Started from [LIO-SAM](https://github.com/TixiaoShan/LIO-SAM)'s stale `ros2` branch, with the fixes. See `updates.md` for what changed and why.
+
+---
+
+## Quickstart
+
+```bash
+colcon build --packages-select lio_sam --symlink-install
+source install/setup.bash
+
+ros2 launch lio_sam run.launch.py params_file:=params_curtmini.yaml
+ros2 bag play <bag> --clock --exclude /tf /tf_static
+```
+
+Pick the params file for your robot from [section 3](#3-choose-a-configuration);
+it sets up the whole stack. Start LIO-SAM before playing the bag. Go1 and Bunker
+Mini recordings need a one-time offline conversion first ([section 7](#7-offline-bag-conversion)).
 
 ---
 
@@ -22,10 +39,10 @@ sudo apt install ros-jazzy-perception-pcl ros-jazzy-pcl-msgs \
 Unlike the upstream README, **no GTSAM PPA is needed** — `ros-jazzy-gtsam` is a
 released deb and ships `gtsam_unstable` too.
 
-The Go1 bag converters in `scripts/go1/` need Python packages (`rosbags tqdm numpy`).
-
-`scripts/urdf_extrinsics.py` (section 9) additionally needs `numpy` and
-`ros-jazzy-urdfdom-py`. Neither is required to build or run the nodes.
+The scripts have their own dependencies, none of which are needed to build or
+run the nodes: the bag converters in `scripts/` need `rosbags tqdm numpy`, and
+`scripts/urdf_extrinsics.py` ([section 8](#8-deriving-the-extrinsics-from-a-urdf))
+needs `numpy` and `ros-jazzy-urdfdom-py`.
 
 ---
 
@@ -61,11 +78,37 @@ line up with the robot.
 
 ---
 
-## 4. Running
+## 4. Sensor inputs
+
+- LiDAR: `sensor_msgs/PointCloud2`, with `x y z intensity ring time` fields
+- IMU: `sensor_msgs/Imu`, 9-axis, 200 Hz or higher
+
+**See upstream's info for setting up lidar and IMU data** 
+[prepare lidar data](https://github.com/TixiaoShan/LIO-SAM#prepare-lidar-data)
+and [prepare IMU data](https://github.com/TixiaoShan/LIO-SAM#prepare-imu-data),
+which still apply unchanged.
+
+All three extrinsics in configs are `T_lb` (lidar ← imu): the rotations map IMU-frame
+vectors into lidar axes, and `extrinsicTrans` is the IMU origin expressed in
+**lidar** axes.
+
+---
+
+## 5. Running
+
+Start LIO-SAM before playing the bag.
 
 ```bash
 ros2 launch lio_sam run.launch.py params_file:=params_curtmini.yaml
 ```
+Launch arguments:
+
+| argument | default | |
+|---|---|---|
+| `params_file` | `params.yaml` | a name in `config/`, or an absolute path |
+| `use_sim_time` | `true` | follows `/clock`; set `false` for live sensors |
+| `log_level` | `info` | `lio_sam_mapOptimization` only — `debug` shows the GPS-factor diagnostics |
+| `publish_robot_description` | `true` | set `false` if another node already publishes an equivalent robot description |
 
 Then play a bag:
 
@@ -76,27 +119,12 @@ ros2 bag play <bag> --clock --exclude /tf /tf_static
 Excluding the bag's own `/tf` and `/tf_static` matters on recordings that carry
 conflicting static transforms.
 
-Start LIO-SAM before playing the bag.
-
-Launch arguments:
-
-| argument | default | |
-|---|---|---|
-| `params_file` | `params.yaml` | a name in `config/`, or an absolute path |
-| `use_sim_time` | `true` | follows `/clock`; set `false` for live sensors |
-| `log_level` | `info` | `lio_sam_mapOptimization` only — `debug` shows the GPS-factor diagnostics |
-| `publish_robot_description` | `true` | set `false` if another node already publishes an equivalent robot description |
-
 If the recorded topics differ from the config, either edit `pointCloudTopic` /
-`imuTopic` in the params file, or remap at playback:
-
-```bash
-ros2 bag play <bag> --clock --remap /imu/data:=/imu/data/corrected
-```
+`imuTopic` in the params file, or remap at playback.
 
 ---
 
-## 5. Saving the map
+## 6. Saving the map
 
 ```bash
 ros2 service call /lio_sam/save_map lio_sam/srv/SaveMap \
@@ -107,54 +135,28 @@ ros2 service call /lio_sam/save_map lio_sam/srv/SaveMap \
 
 ---
 
-## 6. Unitree Go1 offline bag conversion
+## 7. Offline bag conversion
 
-The Go1 data is in ROS 1 bags. `scripts/go1/` ports FRUC's two converters using
-the [`rosbags`](https://ternaris.gitlab.io/rosbags/) library, so no ROS 1
-installation is needed:
+Two platforms cannot be played straight into LIO-SAM. Both are handled once,
+offline; after that they are ordinary `ros2 bag play`.
 
-```bash
-./unitree_extract.py raw_bags/ -o extracted     # ROS 1 -> ROS 2, HighState -> sensor_msgs/Imu
-./go1_preprocess.py  extracted  -o preprocessed # cloud filter + IMU resample to 100 Hz
-```
+**Unitree Go1** — the data is in ROS 1 bags with Unitree `HighState` in place of
+an IMU. `scripts/go1/` ports FRUC's two converters; see
+[`scripts/go1/README.md`](scripts/go1/README.md). Run `params_rslidar.yaml`
+against the result.
 
-Then run `params_rslidar.yaml` against the result.
-
----
-
-## 7. Bunker Mini offline bag conversion
-
-Bunker recordings hold raw Hesai UDP rather than point clouds, and the QT128's
-timestamps do not match the rest of the bag. Both are handled offline by
-`scripts/bunker/convert_bunker.py` — see [`scripts/bunker/README.md`](scripts/bunker/README.md).
-
-Run `params_bunkermini.yaml` against the converted bag, not the original.
+**Bunker Mini** — the recordings hold raw Hesai UDP rather than point clouds, and
+the QT128's timestamps do not match the rest of the bag. Both are handled by
+`scripts/bunker/convert_bunker.py`; see
+[`scripts/bunker/README.md`](scripts/bunker/README.md). Run
+`params_bunkermini.yaml` against the converted bag, not the original.
 
 ---
 
-## 8. Sensor inputs
+## 8. Deriving the extrinsics from a URDF
 
-- LiDAR: `sensor_msgs/PointCloud2`, with `x y z intensity ring time` fields
-- IMU: `sensor_msgs/Imu`, 9-axis, 200 Hz or higher
-
-`time` is per-point, relative to the scan start, and FLOAT32 — a driver emitting
-an absolute FLOAT64 `timestamp` instead will not be recognised. Lidar and IMU
-must also be on the same clock, since LIO-SAM compares their header stamps
-directly. Both failures are silent. See upstream's
-[prepare lidar data](https://github.com/TixiaoShan/LIO-SAM#prepare-lidar-data)
-and [prepare IMU data](https://github.com/TixiaoShan/LIO-SAM#prepare-imu-data),
-which still apply unchanged.
-
-All three extrinsics are `T_lb` (lidar ← imu): the rotations map IMU-frame
-vectors into lidar axes, and `extrinsicTrans` is the IMU origin expressed in
-**lidar** axes.
-
----
-
-## 9. Deriving the extrinsics from a URDF
-
-`scripts/urdf_extrinsics.py` computes that block for you, so a new platform does
-not need the transform chain composed by hand:
+`scripts/urdf_extrinsics.py` computes the extrinsics block for you, so a new
+platform does not need the transform chain composed by hand:
 
 ```bash
 cd config
@@ -167,13 +169,11 @@ It expands the xacro, walks both links up to their common root, and prints
 joint chains it walked and `R_lidar←imu` in degrees so the result can be checked
 by eye.
 
-`--lidar-link` is the params file's `lidarFrame`. For IMU link use whatever link 
+`--lidar-link` is the params file's `lidarFrame`. For IMU link use whatever link
 the IMU driver stamps its messages with.
 
 `--snap-deg DEG` rounds the rotation to the nearest exact axis permutation when
-it is within `DEG` of one, and reports how much it discarded. It is **off by default**:
-without it you get the raw geometric value. If it declines to snap, the mount is
-genuinely off-axis or a joint origin is wrong.
+it is within `DEG` of one. It is **off by default**:
 
 `extrinsicRPY` is emitted equal to `extrinsicRot`, which holds whenever the IMU
 reports inertial and attitude data in the same body frame. If yours does not,
@@ -181,11 +181,11 @@ override it by hand.
 
 ---
 
-## 10. Notes
+## 9. Notes
 
 - Platform URDFs and extrinsics are derived from each robot's own description
   repo, not from the fruc_lio_sam copies, which disagree with them in places.
-- **params_rslidar and param_apparatus have not yet been tested.**
+- **params_rslidar and params_apparatus have not yet been tested.**
 - **Velodyne, Livox and Microstrain remain untested here**, as on upstream's
   ROS 2 branch.
 - If the map is tilted or unstable, check the TF tree first, then the extrinsics.
