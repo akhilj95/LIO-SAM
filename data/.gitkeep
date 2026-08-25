@@ -1,0 +1,2 @@
+# Mount point for bags, maps and calibration data.
+# Kept in git so the compose bind mount has a target; contents are ignored.

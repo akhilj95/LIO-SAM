@@ -26,6 +26,9 @@ The Go1 bag converters in `scripts/go1/` need Python packages as well:
 ```bash
 pip install rosbags tqdm numpy
 ```
+
+`scripts/urdf_extrinsics.py` (section 9) additionally needs `numpy` and
+`ros-jazzy-urdfdom-py`. Neither is required to build or run the nodes.
 ---
 
 ## 2. Build
@@ -120,27 +123,70 @@ Then run `params_rslidar.yaml` against the result.
 
 ---
 
-## 7. Sensor inputs
+## 7. Bunker Mini offline bag conversion
+
+Bunker recordings hold raw Hesai UDP rather than point clouds, and the QT128's
+timestamps do not match the rest of the bag. Both are handled offline by
+`scripts/bunker/convert_bunker.py` — see [`scripts/bunker/README.md`](scripts/bunker/README.md).
+
+Run `params_bunkermini.yaml` against the converted bag, not the original.
+
+---
+
+## 8. Sensor inputs
 
 - LiDAR: `sensor_msgs/PointCloud2`, with `x y z intensity ring time` fields
 - IMU: `sensor_msgs/Imu`, 9-axis, 200 Hz or higher
 
+`time` is per-point, relative to the scan start, and FLOAT32 — a driver emitting
+an absolute FLOAT64 `timestamp` instead will not be recognised. Lidar and IMU
+must also be on the same clock, since LIO-SAM compares their header stamps
+directly. Both failures are silent. See upstream's
+[prepare lidar data](https://github.com/TixiaoShan/LIO-SAM#prepare-lidar-data)
+and [prepare IMU data](https://github.com/TixiaoShan/LIO-SAM#prepare-imu-data),
+which still apply unchanged.
+
 All three extrinsics are `T_lb` (lidar ← imu): the rotations map IMU-frame
 vectors into lidar axes, and `extrinsicTrans` is the IMU origin expressed in
-**lidar** axes. See also the **prepare IMU data** section of the
-[upstream README](https://github.com/TixiaoShan/LIO-SAM/blob/master/README.md),
-which still applies unchanged.
+**lidar** axes.
 
 ---
 
-## 8. Notes
+## 9. Deriving the extrinsics from a URDF
+
+`scripts/urdf_extrinsics.py` computes that block for you, so a new platform does
+not need the transform chain composed by hand:
+
+```bash
+cd config
+../scripts/urdf_extrinsics.py ./config/fruc_bunkermini.urdf.xacro \
+    --lidar-link hesai_lidar --imu-link imu --snap-deg 1.0
+```
+
+It expands the xacro, walks both links up to their common root, and prints
+`T_lb = T_root←lidar⁻¹ · T_root←imu` as a paste-ready YAML block, along with the
+joint chains it walked and `R_lidar←imu` in degrees so the result can be checked
+by eye.
+
+`--lidar-link` is the params file's `lidarFrame`. For IMU link use whatever link 
+the IMU driver stamps its messages with.
+
+`--snap-deg DEG` rounds the rotation to the nearest exact axis permutation when
+it is within `DEG` of one, and reports how much it discarded. It is **off by default**:
+without it you get the raw geometric value. If it declines to snap, the mount is
+genuinely off-axis or a joint origin is wrong.
+
+`extrinsicRPY` is emitted equal to `extrinsicRot`, which holds whenever the IMU
+reports inertial and attitude data in the same body frame. If yours does not,
+override it by hand.
+
+---
+
+## 10. Notes
 
 - Platform URDFs and extrinsics are derived from each robot's own description
   repo, not from the fruc_lio_sam copies, which disagree with them in places.
-- **Bunker Mini is untested against a bag.** Its frames and extrinsics are
-  verified, but `Horizon_SCAN`, `pointCloudTopic` and the presence of a `ring`
-  field are inherited from upstream and unconfirmed. See the header of
-  `params_bunkermini.yaml`.
+- **params_rslidar and param_apparatus have not yet been tested.**
 - **Velodyne, Livox and Microstrain remain untested here**, as on upstream's
   ROS 2 branch.
 - If the map is tilted or unstable, check the TF tree first, then the extrinsics.

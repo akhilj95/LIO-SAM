@@ -1,1 +1,5 @@
 __pycache__/
+
+# Data mount point: keep the directory, ignore whatever is put in it.
+data/*
+!data/.gitkeep

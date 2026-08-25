@@ -1,32 +1,43 @@
-version: '3'
+# LIO-SAM - ROS 2 Jazzy. Self-contained: every path here is inside this repo.
+#
+#   docker compose build
+#   docker compose up -d
+#   docker compose exec lio-sam bash
+#
+# Put bags and maps in ./data - it is mounted at /root/data in the container.
+# For RViz, allow the container to reach your X server first:
+#   xhost +local:docker
+
 services:
-  liosam-humble-jammy-container:
-    image: liosam-humble-jammy
-    container_name: liosam-humble-jammy-container
-    privileged: true
-    hostname: liosam-humble-jammy-container
-    restart: always
+  lio-sam:
+    build:
+      context: .
+      args:
+        ROS_DISTRO: jazzy
+    image: lio-sam-jazzy
+    container_name: lio-sam-jazzy
+    hostname: lio-sam-jazzy
     stdin_open: true
     tty: true
-    network_mode: "host"
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
-      - 8.8.8.8
+    # ROS 2 discovery needs the host network; ipc:host lets the DDS
+    # shared-memory transport work, which matters for full-rate point clouds.
+    network_mode: host
+    ipc: host
     environment:
-      - "DISPLAY=$DISPLAY"
-      - "NVIDIA_VISIBLE_DEVICES=all"
-      - "NVIDIA_DRIVER_CAPABILITIES=all"
-      - "FASTRTPS_DEFAULT_PROFILES_FILE=/usr/local/share/middleware_profiles/rtps_udp_profile.xml"
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
     volumes:
-      - "/tmp/.X11-unix:/tmp/.X11-unix"
-      - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/dev/*:/dev/*"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /etc/localtime:/etc/localtime:ro
+      - ./data:/root/data
+
+    # NVIDIA GPU passthrough. Uncomment only if the NVIDIA Container Toolkit is
+    # installed - with this block present on a machine without it, `docker
+    # compose up` fails outright rather than falling back to CPU.
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]

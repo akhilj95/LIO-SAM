@@ -3,37 +3,12 @@
 # AgileX Bunker Mini + Hesai QT128 + Xsens MTi. Ported from
 # Forestry-Robotics-UC/fruc_lio_sam config/hesai.yaml (ROS 1), with the
 # extrinsics re-derived - see the extrinsic block below, upstream's were wrong.
-#
-# GPS is DISABLED upstream via gpsTopic "odometry/gpsz" (a dead topic) - kept
-#   as-is. Very tight keyframe thresholds (0.05 m / 0.07 rad) and dense
-#   global-map visualisation: high-resolution forestry scanning.
+
 #
 #  lidarFrame != baselinkFrame here, which activates the lidar->baselink
 #  tf lookup in TransformFusion. The URDF must provide that transform.
-#
-# ============================= UNVERIFIED =============================
-# No Bunker Mini bag was available when this was written. The extrinsics and
-# frames are derived from the platform's own URDF and are trustworthy; the
-# items below are inherited from upstream and are NOT:
-#
-#   - Horizon_SCAN: 1800 is Velodyne boilerplate. The QT128 correction file
-#     (QT128C2X, in the recorder's HesaiLidar_ROS_2.0 driver) gives 128
-#     channels spanning -52.63 to +52.63 deg elevation, non-monotonic by laser
-#     id, each with its own azimuth offset up to +/-10.1 deg. At the driver's
-#     configured 10 Hz, 1800 columns (0.2 deg) is not a QT128 rate. Read the
-#     real value off one decoded cloud.
-#   - pointCloudTopic "/lidar_points_clean" is a post-processed topic. The
-#     recorder captures /lidar_packets - raw UDP, not PointCloud2 - and decodes
-#     offline by replaying through the Hesai driver (source_type 3). Whatever
-#     produces "_clean" from that is not in this workspace.
-#   - sensor: "velodyne" only means "take the row index from the ring field",
-#     which is right if the decoded cloud carries ring. Confirm it does.
-#
-# The driver's transform_flag is false and its ros_frame_id defaults to
-# "hesai_lidar", so points should arrive untransformed in the frame named
-# below - but that is the same assumption that turned out to vary per-decoder
-# on Curt Mini, so check it against the URDF in RViz before trusting a run.
-# ======================================================================
+
+# =============================================================================
 
 # ROS 2 notes:
 #  - broadcast_utm_transform -> broadcast_cartesian_transform, and
@@ -52,16 +27,16 @@
     # and the topic navsat_transform_node's 'imu' input is remapped to.
     # Keeping them here means selecting this file selects the whole setup.
     urdfFile: "fruc_bunkermini.urdf.xacro"
-    navsatImuTopic: "imu/data/corrected"
+    navsatImuTopic: "/imu/data"
     # Topic navsat_transform_node's 'gps/fix' input is remapped to.
     gpsFixTopic: "/fix"
 
     # Parameters for LIO-SAM
     # Topics
-    pointCloudTopic: "/lidar_points_clean"
-    imuTopic: "imu/data/corrected"
+    pointCloudTopic: "/lidar_points/corrected"
+    imuTopic: "/imu/data"
     odomTopic: "odometry/imu"
-    gpsTopic: "odometry/gpsz"                 # GPS odometry topic from navsat
+    gpsTopic: "odometry/gps"                  # GPS odometry topic from navsat
     
     # Frames
     lidarFrame: "hesai_lidar"
@@ -97,30 +72,6 @@
 
     # Extrinsic between Lidar and IMU.
     # All T_lb (lidar <- imu): the rotations map IMU-frame vectors into lidar axes, and extrinsicTrans is the IMU origin expressed in LIDAR axes.
-
-    #
-    # CONVENTION, read off the code rather than off upstream's comments. All
-    # three are T_lb, i.e. lidar <- imu:
-    #
-    #   extrinsicRot   R_lidar<-imu. utility.hpp:321 does acc = extRot * acc on
-    #                  data measured in the IMU frame, and master's README says
-    #                  that puts "the IMU data in the lidar frame".
-    #   extrinsicRPY   R_lidar<-imu as well. utility.hpp:254 takes the INVERSE
-    #                  (extQRPY) and utility.hpp:333 right-multiplies the IMU's
-    #                  q_wb by it. Master's README: the algorithm needs q_bl for
-    #                  q_wl = q_wb * q_bl, "the user only needs to provide q_lb
-    #                  as extrinsicRPY". Equal to extrinsicRot whenever the IMU
-    #                  reports inertial and attitude data in the same body
-    #                  frame, which the MTi does.
-    #   extrinsicTrans The IMU ORIGIN EXPRESSED IN LIDAR AXES. imuPreintegration
-    #                  .cpp:226 builds lidar2Imu = Pose3(identity, extTrans) and
-    #                  line 415 does lidarPose.compose(lidar2Imu), i.e.
-    #                  T_world<-lidar * T_lidar<-imu. The rotation there is
-    #                  identity, not extRot, because imuConverter has already
-    #                  rotated the data - which is exactly what forces extTrans
-    #                  into lidar axes rather than IMU axes. Cross-checked
-    #                  against master's KITTI values, which are verbatim
-    #                  KITTI's calib_imu_to_velo translation (T_velo<-imu).
 
     extrinsicTrans: [0.037087, 0.017320, -0.250195]
     extrinsicRot: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
@@ -189,7 +140,7 @@ ekf_gps:
     frequency: 50.0
     two_d_mode: false
     sensor_timeout: 0.01
-    imu0: "imu/data/corrected"
+    imu0: "/imu/data"
     imu0_config: [False, False, False, True, True, True, False, False, False, False, False, True, True, True, True]
     imu0_differential: false
     imu0_queue_size: 50

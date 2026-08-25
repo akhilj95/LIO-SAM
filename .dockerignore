@@ -1,0 +1,20 @@
+# Keep the build context small. data/ especially: it is a mount point for bags,
+# which run to many GB, and sending those to the daemon on every build would be
+# slow for no benefit - the compose file bind-mounts it at runtime instead.
+.git
+.github
+data/
+
+# colcon output from a host-side build
+build/
+install/
+log/
+
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Not needed inside the image
+Dockerfile
+.dockerignore
+docker-compose.yaml
